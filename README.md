@@ -3,5 +3,5 @@ Capstone project. Team name: Goocrux Ploosnar!!!
 
 1. Damien Sauve (Team Leader)
 2. Thomas Kolbinger - cool guy
-3. Chad Watson
+3. Chad Watson - the diabetic demon git a
 4. Tristan Miguel Garcia - sad boy
