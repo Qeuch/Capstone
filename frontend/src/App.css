@@ -1,8 +1,15 @@
 #root {
-  max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
+  /*padding: 2rem;*/
   text-align: center;
+  background-image: url("https://i.pinimg.com/564x/61/40/c3/6140c377462b0a7eff15ac9635340ed5.jpg");
+  width: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border: red;
+  border-width: 10px;
+  border-style: solid;
+  
 }
 
 .logo {
@@ -39,4 +46,21 @@
 
 .read-the-docs {
   color: #888;
+}
+
+html, body {
+  margin: 0;
+  height: 100%;
+}
+
+.football-background{
+  padding: 0;
+  height: 100vh;
+  background-size: cover;
+  background-attachment: fixed;
+  
+}
+.register-button{
+  color: grey;
+  border-radius: 25px;
 }

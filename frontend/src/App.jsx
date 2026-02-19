@@ -14,7 +14,9 @@ function App() {
       <Router>
         <Routes>
           {/* Path to the login page, will take you to /main if good login, /create-user if register is clicked*/}
+          
           <Route path="/" element={<LoginPage />} />
+          
 
           {/* this path will loop back to login maybe, we'll see. */}
           <Route path="/create-user" element={<RegisterPage />} />
