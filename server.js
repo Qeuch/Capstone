@@ -16,5 +16,15 @@ server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
 
 // connect to DB
+mongoose
+  .connect(DB_URI)
+  .then(() => {
+    server.listen(port, () => {
+      console.log(`Connected to DB\nServer is running on port ${port}`);
+    });
+  })
+  .catch((error) => {
+    console.log(error);
+  });
 
 // routes n stuff
