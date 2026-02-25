@@ -28,3 +28,133 @@ mongoose
   });
 
 // routes n stuff
+/* server.get("/main", (request, response) => {
+  response.send("LIVE!");
+}); */
+
+// Not authorized
+server.get("/not-authorized", (request, response) => {
+  response.status(401);
+  response.send("NOT AUTHORIZED!");
+});
+
+// Register new user
+server.post("/create-user", async (request, response) => {
+  console.log(request.body);
+  const { username, password } = request.body;
+
+  try {
+    /* 
+    const id = crypto.randomUUID();
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = new User({
+      _id: id,
+      username,
+      password: hashedPassword,
+    });
+    await newUser.save();
+    response.send({ message: "User Created!" });
+    */
+  } catch (error) {
+    /* 
+    console.log(error);
+    response
+      .status(500)
+      .send({ message: "User Already Exists, please find another username" });
+      */
+  }
+});
+
+// Adding Player
+
+server.post("/add-player", async (request, response) => {
+  const { playerName, age, image, role } = request.body; // just change the variable naming here if i didn't get it right
+  const id = crypto.randomUUID();
+  const player = new Player({
+    playerName,
+    age,
+    image,
+    role,
+    id,
+  });
+
+  //Server's response to player being added
+  try {
+    await player.save();
+    response.status(201).json({ message: "Player added successfully" });
+  } catch (error) {
+    response.status(400).json({ message: error.message });
+  }
+});
+
+
+// Delete player
+server.delete("/players/:id", async (request, response) => {
+  const { id } = request.params;
+  //Server's response to a player being deleted
+  try {
+    await Player.findByIdAndDelete(id).then((result) => {
+      console.log(result);
+      response.status(200).send(result);
+    });
+  } catch (error) {
+    console.log(error.message);
+  }
+});
+
+// Edit player
+server.patch("/edit-player/:id", async (request, response) => {
+  const playerId = request.params.id;
+  const { playerName, image, age, role, id } = request.body;
+
+  //Server's response to a player being editted
+  try {
+    await Product.findByIdAndUpdate(playerId, {
+      playerName,
+      image,
+      age,
+      role,
+      id,
+    }).then((result) =>
+      response.status(200).send(`${playerName} edited\nwith id: ${playerId}`)
+    );
+  } catch (error) {
+    console.log(error.message);
+  }
+});
+
+// Login existing user route
+server.post("/", async (request, response) => {
+  const { username, password } = request.body;
+
+  try {
+     /* const user = await User.findOne({ username });
+    if (!user) {
+      return response.status(404).send({ message: "User does not exist" });
+    }
+
+    const match = await bcrypt.compare(password, user.password);
+    if (!match) {
+      return response
+        .status(403)
+        .send({ message: "Incorrect username or password" });
+    }
+
+    const jwtToken = jwt.sign(
+      { id: user._id, username, role: user.role },
+      SECRET_KEY
+    );
+    return response
+      .status(201)
+      .send({ message: "User Authenticated", token: jwtToken });
+      */
+  } catch (error) {
+    response.status(500).send({ message: error.message });
+  }
+});
+
+// always at the end
+server.get("*", (request, response) => {
+  response.status(401);
+  response.send("hell naw");
+});
