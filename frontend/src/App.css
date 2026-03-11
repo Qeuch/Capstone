@@ -2,14 +2,12 @@
   margin: 0 auto;
   /*padding: 2rem;*/
   text-align: center;
-  background-image: url("https://i.pinimg.com/564x/61/40/c3/6140c377462b0a7eff15ac9635340ed5.jpg");
   width: 100%;
   background-repeat: no-repeat;
   background-size: cover;
   border: red;
   border-width: 10px;
   border-style: solid;
-  
 }
 
 .logo {
@@ -60,7 +58,7 @@ html, body {
   background-attachment: fixed;
   
 }
-.register-button{
-  color: grey;
-  border-radius: 25px;
+
+.text-outline-red {
+  -webkit-text-stroke: 1px red;
 }

@@ -1,8 +1,22 @@
-export default function FormComponent({ currentPage }) {
+import { useState } from "react";
+import LoginPage from "./LoginPage";
+import RegisterPage from "./RegisterPage";
+
+export default function FormComponent({
+  formData,
+  handleOnSubmit,
+  handleOnChange,
+  currentPage,
+}) {
+  const [isLogin, setIsLogin] = useState();
+
   return (
-    // Form for login / register
     <div>
-      <h1>{currentPage === "create-user" ? "Register" : "Login"}</h1>
+      <h1>
+        {currentPage ? <RegisterPage /> : <LoginPage />}
+      </h1>
     </div>
-  );
+  )
 }
+
+
