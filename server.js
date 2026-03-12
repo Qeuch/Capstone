@@ -8,7 +8,7 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 // uncomment these later once we have them added
-// const { DB_URI } = process.env;
+const { DB_URI } = process.env;
 // const { SECRET_KEY } = process.env;
 
 server.use(cors());
@@ -87,7 +87,6 @@ server.post("/add-player", async (request, response) => {
   }
 });
 
-
 // Delete player
 server.delete("/players/:id", async (request, response) => {
   const { id } = request.params;
@@ -116,7 +115,7 @@ server.patch("/edit-player/:id", async (request, response) => {
       role,
       id,
     }).then((result) =>
-      response.status(200).send(`${playerName} edited\nwith id: ${playerId}`)
+      response.status(200).send(`${playerName} edited\nwith id: ${playerId}`),
     );
   } catch (error) {
     console.log(error.message);
@@ -128,7 +127,7 @@ server.post("/", async (request, response) => {
   const { username, password } = request.body;
 
   try {
-     /* const user = await User.findOne({ username });
+    /* const user = await User.findOne({ username });
     if (!user) {
       return response.status(404).send({ message: "User does not exist" });
     }
@@ -154,7 +153,9 @@ server.post("/", async (request, response) => {
 });
 
 // always at the end
-server.get("*", (request, response) => {
-  response.status(401);
-  response.send("hell naw");
-});
+// commenting this out for now. I dont know what it's meant to do, but "*" isn't a valid path for a server.get
+
+// server.get("*", (request, response) => {
+//   response.status(401);
+//   response.send("hell naw");
+// });
