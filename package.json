@@ -4,7 +4,6 @@
   "description": "Capstone project. Team name: Goocrux Ploosnar!!!",
   "main": "index.js",
   "dependencies": {
-    "@tailwindcss/vite": "^4.2.1",
     "accepts": "^2.0.0",
     "bcrypt": "^6.0.0",
     "body-parser": "^2.2.2",
@@ -108,5 +107,8 @@
   "bugs": {
     "url": "https://github.com/Qeuch/Capstone/issues"
   },
-  "homepage": "https://github.com/Qeuch/Capstone#readme"
+  "homepage": "https://github.com/Qeuch/Capstone#readme",
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.2.1"
+  }
 }
