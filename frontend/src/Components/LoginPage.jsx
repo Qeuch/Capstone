@@ -23,13 +23,13 @@ export default function LoginPage() {
 
       setPostResponse(response.data.message);
 
-      if (response.status === 200) {
-        Cookies.set("jwt-authorization", response.data.token);
+      if (response.status === 201) {
+        //Cookies.set("jwt-authorization", response.data.token);
         navigate("/main");
       }
     } catch (error) {
       setPostResponse(
-        error?.response?.data?.message || "Login failed. Please try again."
+        error?.response?.data?.message || "Login failed. Please try again.",
       );
     }
   };
@@ -54,7 +54,8 @@ export default function LoginPage() {
         </h1>
 
         <h2 className="text-5lg md:text-2xl font-bold text-stone-500 mb-10 text-center font-serif">
-          Developed by: Damien Sauve, Thomas Kolbinger, Tristan Garcia and Chad Watson
+          Developed by: Damien Sauve, Thomas Kolbinger, Tristan Garcia and Chad
+          Watson
         </h2>
 
         <FormComponent
