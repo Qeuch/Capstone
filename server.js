@@ -6,6 +6,9 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
+// importing models because tristan forgot LOL
+const Player = require("./models/player");
+const User = require("./models/user");
 
 // uncomment these later once we have them added
 const { DB_URI } = process.env;
@@ -27,9 +30,9 @@ mongoose
   });
 
 // routes n stuff
- server.get("/main", (request, response) => {
+server.get("/main", (request, response) => {
   response.send("LIVE!");
-}); 
+});
 
 // Not authorized
 server.get("/not-authorized", (request, response) => {
@@ -57,7 +60,6 @@ server.post("/create-user", async (request, response) => {
     response
       .status(500)
       .send({ message: "User Already Exists, please find another username" });
-      
   }
 });
 
@@ -123,7 +125,7 @@ server.post("/", async (request, response) => {
   const { username, password } = request.body;
 
   try {
-   const user = await User.findOne({ username });
+    const user = await User.findOne({ username });
     if (!user) {
       return response.status(404).send({ message: "User does not exist" });
     }
@@ -135,15 +137,15 @@ server.post("/", async (request, response) => {
         .send({ message: "Incorrect username or password" });
     }
 
-    const jwtToken = jwt.sign(
-      { id: user._id, username, role: user.role },
-      SECRET_KEY
-    );
+    // const jwtToken = jwt.sign(
+    //   { id: user._id, username, role: user.role },
+    //   SECRET_KEY,
+    // );
     return response
       .status(201)
-      .send({ message: "User Authenticated", token: jwtToken });
-      
+      .send({ message: "User Authenticated" /*token: jwtToken*/ });
   } catch (error) {
+    console.error("LOGIN ERROR:", error);
     response.status(500).send({ message: error.message });
   }
 });
