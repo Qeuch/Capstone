@@ -43,7 +43,7 @@ server.get("/not-authorized", (request, response) => {
 // Register new user
 server.post("/create-user", async (request, response) => {
   console.log(request.body);
-  const { username, password } = request.body;
+  const { username, email, password } = request.body;
 
   try {
     const id = crypto.randomUUID();
@@ -51,6 +51,7 @@ server.post("/create-user", async (request, response) => {
     const newUser = new User({
       _id: id,
       username,
+      email,
       password: hashedPassword,
     });
     await newUser.save();
