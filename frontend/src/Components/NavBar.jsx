@@ -1,20 +1,15 @@
-// navbar
+import { useNavigate } from "react-router-dom";
 
 export default function NavBar() {
+  const navigate = useNavigate();
+
   return (
     <div>
-      {/* Roster */}
-      <button>Roster</button>
-      {/* Schedule */}
-      <button>Schedule</button>
-      {/* Team Stats */}
-      <button>Team Stats</button>
-      {/* Home */}
-      <button>Home</button>
-      {/* Add Stats (admin only) */}
-      <button>Add Stats</button>
-      {/* Logout */}
-      <button>Logout</button>
+      <button onClick={() => navigate("")}>Home</button>
+      <button onClick={() => navigate("roster")}>Roster</button>
+      <button onClick={() => navigate("schedule")}>Schedule</button>
+      <button onClick={() => navigate("teamstats")}>Team Stats</button>
+      <button onClick={() => navigate("addstats")}>Add Stats</button>
     </div>
   );
 }
