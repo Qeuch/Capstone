@@ -5,6 +5,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
 require("dotenv").config();
 // importing models because tristan forgot LOL
 const Player = require("./models/player");
@@ -42,9 +43,13 @@ server.get("/not-authorized", (request, response) => {
 
 // Register new user
 server.post("/create-user", async (request, response) => {
-  console.log(request.body);
+  // Uncomment this for testing the register - tristan
+  // console.log(request.body);
   const { username, email, password } = request.body;
 
+  if (!username || !password) {
+  return response.status(400).send({ message: "Missing fields" });
+} else {
   try {
     const id = crypto.randomUUID();
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -62,7 +67,7 @@ server.post("/create-user", async (request, response) => {
       .status(500)
       .send({ message: "User Already Exists, please find another username" });
   }
-});
+}});
 
 // Adding Player
 
@@ -74,7 +79,6 @@ server.post("/add-player", async (request, response) => {
     age,
     image,
     role,
-    id,
   });
 
   //Server's response to player being added
@@ -91,10 +95,8 @@ server.delete("/players/:id", async (request, response) => {
   const { id } = request.params;
   //Server's response to a player being deleted
   try {
-    await Player.findByIdAndDelete(id).then((result) => {
-      console.log(result);
-      response.status(200).send(result);
-    });
+   const result = await Player.findByIdAndDelete(id);
+    response.status(200).send(result);
   } catch (error) {
     console.log(error.message);
   }
@@ -107,12 +109,11 @@ server.patch("/edit-player/:id", async (request, response) => {
 
   //Server's response to a player being editted
   try {
-    await Product.findByIdAndUpdate(playerId, {
+    await Player.findByIdAndUpdate(playerId, {
       playerName,
       image,
       age,
       role,
-      id,
     }).then((result) =>
       response.status(200).send(`${playerName} edited\nwith id: ${playerId}`),
     );
