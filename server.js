@@ -47,7 +47,7 @@ server.post("/create-user", async (request, response) => {
   // console.log(request.body);
   const { username, email, password } = request.body;
 
-  if (!username || !password) {
+  if (!username || !password || !email) {
   return response.status(400).send({ message: "Missing fields" });
 } else {
   try {
