@@ -6,6 +6,11 @@ import PageNotFound from "./Components/PageNotFound";
 import NotAuthorized from "./Components/NotAuthorized";
 import AppContainer from "./Components/AppContainer";
 
+// routes for navbar
+import Roster from "./Components/Roster";
+import Schedule from "./Components/Schedule";
+import TeamStats from "./Components/TeamStats";
+import AddStats from "./Components/AddStats";
 // import all containers here
 
 function App() {
@@ -20,8 +25,14 @@ function App() {
           {/* this path will loop back to login maybe, we'll see. */}
           <Route path="/create-user" element={<RegisterPage />} />
 
-          {/* Right now this is /main/* like we had in our web programming thing, i'm guessing it'll have child routes */}
-          <Route path="/main" element={<AppContainer />} />
+          {/* This bad boy is all the routes for the navbar. roster, schedule, etc are CHILD ROUTES to /main */}
+          <Route path="/main" element={<AppContainer />}>
+            {/* child routes */}
+            <Route path="roster" element={<Roster />} />
+            <Route path="schedule" element={<Schedule />} />
+            <Route path="teamstats" element={<TeamStats />} />
+            <Route path="addstats" element={<AddStats />} />
+          </Route>
 
           {/* This if you try to bypass login. Somewhere further in, we'll have this route accessed 
             by trying to get to admin views without admin privilege */}
