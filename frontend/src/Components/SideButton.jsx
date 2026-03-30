@@ -1,6 +1,7 @@
-export default function SideButton({ label, active, danger }) {
+export default function SideButton({ label, active, danger, onClick }) {
   return (
     <button
+      onClick={onClick}
       className={`
         w-full rounded-xl px-4 py-3 text-left text-lg
         transition-all duration-300 ease-in-out
