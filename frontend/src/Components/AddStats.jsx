@@ -1,3 +1,9 @@
 export default function AddStats() {
-  return;
+  // The admin-only component.
+  return (
+    <div>
+      <h1>Game Name/Date PLACEHOLDER</h1>
+      {/* Not entirely sure what this is gonna look like. Ask Tom */}
+    </div>
+  );
 }
