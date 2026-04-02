@@ -1,4 +1,3 @@
-// This is for later once login is done and we are inside the main page
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
