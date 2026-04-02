@@ -11,6 +11,7 @@ import Roster from "./Components/Roster";
 import Schedule from "./Components/Schedule";
 import TeamStats from "./Components/TeamStats";
 import AddStats from "./Components/AddStats";
+import LandingPage from "./Components/LandingPage";
 // import all containers here
 
 function App() {
@@ -27,7 +28,7 @@ function App() {
 
           {/* This bad boy is all the routes for the navbar. roster, schedule, etc are CHILD ROUTES to /main */}
           <Route path="/main" element={<AppContainer />}>
-            {/* child routes */}
+            <Route index element={<LandingPage />} /> {/* 👈 default page */}
             <Route path="roster" element={<Roster />} />
             <Route path="schedule" element={<Schedule />} />
             <Route path="teamstats" element={<TeamStats />} />

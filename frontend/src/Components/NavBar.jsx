@@ -24,21 +24,21 @@ export default function NavBar() {
               ? location.pathname === "/"
               : location.pathname.includes(`/${link.path}`)
           }
-          onClick={() => navigate(link.path)}
+          onClick={() => navigate(`/main/${link.path}`)}
         />
       ))}
 
       <div className="mt-auto">
-  <SideButton
-    label="Logout"
-    danger
-    onClick={() => {
-      if (window.confirm("Are you sure you want to log out?")) {
-        navigate("/");
-      }
-    }}
-  />
-</div>
+        <SideButton
+          label="Logout"
+          danger
+          onClick={() => {
+            if (window.confirm("Are you sure you want to log out?")) {
+              navigate("/");
+            }
+          }}
+        />
+      </div>
     </aside>
   );
 }
