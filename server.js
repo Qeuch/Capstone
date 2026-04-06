@@ -7,12 +7,14 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 require("dotenv").config();
-// importing models because tristan forgot LOL
 const Player = require("./models/player");
 const User = require("./models/user");
+const Game = require("./models/game");
+const Team = require("./models/team")
 
 // uncomment these later once we have them added
 const { DB_URI } = process.env;
+const { SECRET_KEY } = process.env;
 
 server.use(cors());
 server.use(express.json());
@@ -44,7 +46,7 @@ server.get("/not-authorized", (request, response) => {
 // Register new user
 server.post("/create-user", async (request, response) => {
   // Uncomment this for testing the register - tristan
-  // console.log(request.body);
+   console.log(request.body);
   const { username, email, password } = request.body;
 
   if (!username || !password || !email) {
@@ -139,13 +141,13 @@ server.post("/", async (request, response) => {
         .send({ message: "Incorrect username or password" });
     }
 
-    // const jwtToken = jwt.sign(
-    //   { id: user._id, username, role: user.role },
-    //   SECRET_KEY,
-    // );
+    const jwtToken = jwt.sign(
+      { id: user._id, username, role: user.role },
+      SECRET_KEY,
+    );
     return response
       .status(201)
-      .send({ message: "User Authenticated" /*token: jwtToken*/ });
+      .send({ message: "User Authenticated" , token: jwtToken });
   } catch (error) {
     console.error("LOGIN ERROR:", error);
     response.status(500).send({ message: error.message });
