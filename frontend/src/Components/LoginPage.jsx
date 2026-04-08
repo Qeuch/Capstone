@@ -24,7 +24,7 @@ export default function LoginPage() {
       setPostResponse(response.data.message);
 
       if (response.status === 201) {
-        //Cookies.set("jwt-authorization", response.data.token);
+        Cookies.set("jwt-authorization", response.data.token);
         navigate("/main");
       }
     } catch (error) {
