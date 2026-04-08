@@ -2,7 +2,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { IoPersonCircle } from "react-icons/io5";
 import SideButton from "./SideButton";
 
-export default function NavBar({ currentUser }) {
+export default function NavBar({ currentUser, handleLogout }) {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -11,19 +11,15 @@ export default function NavBar({ currentUser }) {
     { label: "Roster", path: "roster" },
     { label: "Schedule", path: "schedule" },
     { label: "Team Stats", path: "teamstats" },
-    { label: "Add Stats", path: "addstats" },
   ];
 
   return (
     <aside className="w-40 bg-zinc-800/90 p-3 flex flex-col text-white">
-      
       <div className="flex items-center gap-2 mb-6 px-2 border-b border-zinc-700 pb-4">
         <IoPersonCircle className="text-blue-400 text-lg" />
         <div className="flex flex-col leading-tight">
           <span className="text-xs text-zinc-400">Welcome</span>
-          <span className="text-sm font-semibold">
-            {currentUser || "Admin"}
-          </span>
+          <span className="text-sm font-semibold">{currentUser.username}</span>
         </div>
       </div>
 
@@ -40,6 +36,9 @@ export default function NavBar({ currentUser }) {
             onClick={() => navigate(`/main/${link.path}`)}
           />
         ))}
+        {currentUser.role == "admin" ? (
+          <SideButton key="addstats" label="Add Stats" />
+        ) : null}
       </div>
 
       <div className="mt-auto pt-4">
@@ -48,7 +47,7 @@ export default function NavBar({ currentUser }) {
           danger
           onClick={() => {
             if (window.confirm("Are you sure you want to log out?")) {
-              navigate("/");
+              handleLogout();
             }
           }}
         />
