@@ -3,17 +3,17 @@ import { Link } from "react-router-dom";
 export default function NotAuthorized() {
   return (
     <div className="min-h-screen flex items-center justify-center relative text-center">
-      
       {/* Background */}
       <div
         className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: "url('/images/behang-met-een-voetbalstadion_6.jpg')" }}
+        style={{
+          backgroundImage: "url('/images/behang-met-een-voetbalstadion_6.jpg')",
+        }}
       />
       <div className="absolute inset-0 bg-black/70" />
 
       {/* Content */}
       <div className="relative z-10 text-white">
-        
         <h1 className="text-7xl font-bold text-red-500 drop-shadow-lg mb-4">
           Error: 403
         </h1>
@@ -28,7 +28,6 @@ export default function NotAuthorized() {
         >
           Go Back to Login
         </Link>
-
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
 // The big component, all (or most of) the logic should live here,
 // and all (or most of) the routes should originate from here (other than the ones in app.jsx)
 import { Outlet } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 //import LandingPage from "./LandingPage";
 import NavBar from "./NavBar";
@@ -11,18 +11,28 @@ import { jwtDecode } from "jwt-decode";
 export default function AppContainer() {
   const navigate = useNavigate();
   // States //
-  const [currentUser, setCurrentUser] = useState(() => {
-    const token = Cookies.get("jwt-authorization");
+  const [currentUser, setCurrentUser] = useState({
+    username: "",
+    role: "",
+  });
 
-    if (!token) return { username: "", role: "" };
-
-    const decoded = jwtDecode(token);
-
-    return {
+  const setCurrent = async (jwtToken) => {
+    const decoded = jwtDecode(jwtToken);
+    setCurrentUser({
       username: decoded.username,
       role: decoded.role,
-    };
-  });
+    });
+  };
+
+  // I KNOW THERE'S AN ERROR HERE JUST IGNORE IT I SWEAR ITS OKAY
+  useEffect(() => {
+    const token = Cookies.get("jwt-authorization");
+    if (!token) {
+      navigate("/not-authorized");
+    } else {
+      setCurrent(token);
+    }
+  }, []);
 
   // Handlers //
   const handleLogout = () => {
