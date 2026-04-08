@@ -3,7 +3,7 @@ export default function SideButton({ label, active, danger, onClick }) {
     <button
       onClick={onClick}
       className={`
-        w-full rounded-xl px-4 py-3 text-left text-lg
+        w-full rounded-xl px-4 py-4 text-left text-lg
         transition-all duration-300 ease-in-out
         transform origin-left
 
@@ -13,7 +13,7 @@ export default function SideButton({ label, active, danger, onClick }) {
           ? "bg-zinc-500 text-white"
           : "bg-zinc-600 text-white hover:bg-zinc-500"}
 
-        hover:scale-x-105 hover:shadow-lg
+        hover:scale-x-110 hover:shadow-lg
       `}
     >
       {label}
