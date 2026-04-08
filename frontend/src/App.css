@@ -63,3 +63,6 @@ html, body {
   -webkit-text-stroke: 1px red;
 }
 
+.text-outline-black {
+  -webkit-text-stroke: 1px black;
+}
