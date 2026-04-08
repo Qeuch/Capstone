@@ -19,7 +19,7 @@ export default function NotAuthorized() {
         </h1>
 
         <p className="text-2xl mb-6 drop-shadow-md">
-          You are not authorized to view this page.
+          You are not authorized to view this page. GET TF OUTTA HERE
         </p>
 
         <Link
