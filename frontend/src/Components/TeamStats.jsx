@@ -1,6 +1,6 @@
 export default function TeamStats() {
   return (
-    <div>
+    <div className="min-h-screen w-full bg-zinc-900">
       {/* Main container*/}
       <div>
         {/* Part of the component that has the filtering options */}
