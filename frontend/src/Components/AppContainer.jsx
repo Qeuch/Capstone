@@ -11,24 +11,18 @@ import { jwtDecode } from "jwt-decode";
 export default function AppContainer() {
   const navigate = useNavigate();
   // States //
-  const [currentUser, setCurrentUser] = useState({
-    username: "",
-    role: "",
-  });
-
-  // I KNOW THERE'S AN ERROR HERE JUST IGNORE IT I SWEAR ITS OKAY
-  useEffect(() => {
+  const [currentUser, setCurrentUser] = useState(() => {
     const token = Cookies.get("jwt-authorization");
-    if (!token) {
-      navigate("/");
-    } else {
-      const decoded = jwtDecode(token);
-      setCurrentUser({
-        username: decoded.username,
-        role: decoded.role,
-      });
-    }
-  }, [navigate]);
+
+    if (!token) return { username: "", role: "" };
+
+    const decoded = jwtDecode(token);
+
+    return {
+      username: decoded.username,
+      role: decoded.role,
+    };
+  });
 
   // Handlers //
   const handleLogout = () => {
