@@ -43,10 +43,40 @@ server.get("/not-authorized", (request, response) => {
   response.send("NOT AUTHORIZED!");
 });
 
+// Get players
+server.get("/players", async (request, response) => {
+  console.log("GET /players hit");
+  try {
+    await Player.find().then((result) => response.status(200).send(result));
+  } catch (error) {
+    console.log(error.message);
+  }
+});
+
+// Get games
+server.get("/games", async (request, response) => {
+  console.log("GET /games hit");
+  try {
+    await Game.find().then((result) => response.status(200).send(result));
+  } catch (error) {
+    console.log(error.message);
+  }
+});
+
+// Get teams
+server.get("/teams", async (request, response) => {
+  console.log("GET /teams hit");
+  try {
+    await Team.find().then((result) => response.status(200).send(result));
+  } catch (error) {
+    console.log(error.message);
+  }
+});
+
 // Register new user
 server.post("/create-user", async (request, response) => {
   // Uncomment this for testing the register - tristan
-   console.log(request.body);
+  // console.log(request.body);
   const { username, email, password } = request.body;
 
   if (!username || !password || !email) {
