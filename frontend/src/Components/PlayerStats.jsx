@@ -54,87 +54,92 @@ export default function PlayerStats() {
       <h1 className="text-3xl font-bold text-white mb-6">Player Stats</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 overflow-auto max-h-[80vh] pr-2">
         {players
-            .filter(
-                (player) =>
-                    isValid(player.firstName) || isValid(player.lastName)
-            )
-            .map((player) => (
-          <div
-            key={player._id}
-            className="bg-gray-800 text-white shadow-lg rounded-lg p-4 flex flex-col"
-          >
-            {isValid(player.photo) && (
-              <img
-                src={player.photo || "/images/default-player.png"}
-                alt={`${player.firstName} ${player.lastName}`}
-                className="w-full h-40 object-cover rounded-md mb-4"
-              />
-            )}
-            <h2 className="text-xl font-semibold mb-2 text-white">
-              {player.firstName} {player.lastName}
-            </h2>
-            {isValid(player.position) && (
-              <p className="text-gray-300 mb-1">
-                <strong>Position:</strong> {positionMap[player.position] || player.position}
-              </p>
-            )}
-            {isValid(player.age) && (
-              <p className="text-gray-300 mb-1">
-                <strong>Age:</strong> {player.age}
-              </p>
-            )}
+          .filter(
+            (player) => isValid(player.firstName) || isValid(player.lastName),
+          )
+          .map((player) => (
+            <div
+              key={player._id}
+              className="bg-gray-800 text-white shadow-lg rounded-lg p-4 flex flex-col"
+            >
+              {isValid(player.photo) && (
+                <img
+                  src={player.photo || "/images/default-player.png"}
+                  alt={`${player.firstName} ${player.lastName}`}
+                  className="w-full h-40 object-cover rounded-md mb-4"
+                />
+              )}
+              <h2 className="text-xl font-semibold mb-2 text-white">
+                {player.firstName} {player.lastName}
+              </h2>
+              {isValid(player.position) && (
+                <p className="text-gray-300 mb-1">
+                  <strong>Position:</strong>{" "}
+                  {positionMap[player.position] || player.position}
+                </p>
+              )}
+              {isValid(player.age) && (
+                <p className="text-gray-300 mb-1">
+                  <strong>Age:</strong> {player.age}
+                </p>
+              )}
 
-            <hr className="my-2 border-gray-600" />
+              <hr className="my-2 border-gray-600" />
 
-            {isValid(player.stats?.gamesPlayed) && (
-              <p className="text-gray-300 mb-1">
-                <strong>Games:</strong> {player.stats.gamesPlayed}
-              </p>
-            )}
-            {isValid(player.stats?.gamesWon) && (
-              <p className="text-gray-300 mb-1">
-                <strong>Wins:</strong> {player.stats.gamesWon}
-              </p>
-            )}
+              {isValid(player.stats?.gamesPlayed) && (
+                <p className="text-gray-300 mb-1">
+                  <strong>Games:</strong> {player.stats.gamesPlayed}
+                </p>
+              )}
+              {isValid(player.stats?.gamesWon) && (
+                <p className="text-gray-300 mb-1">
+                  <strong>Wins:</strong> {player.stats.gamesWon}
+                </p>
+              )}
 
-            {player.stats?.offense && (
-              <>
-                <h3 className="font-semibold mt-3 mb-1 text-white">Offense</h3>
-                {isValid(player.stats.offense.passYard) && (
-                  <p className="text-gray-300 mb-1">
-                    <strong>Pass Yards:</strong> {player.stats.offense.passYard}
-                  </p>
-                )}
-                {isValid(player.stats.offense.passTD) && (
-                  <p className="text-gray-300 mb-1">
-                    <strong>Pass TD:</strong> {player.stats.offense.passTD}
-                  </p>
-                )}
-                {isValid(player.stats.offense.runYard) && (
-                  <p className="text-gray-300 mb-1">
-                    <strong>Run Yards:</strong> {player.stats.offense.runYard}
-                  </p>
-                )}
-                {isValid(player.stats.offense.runTD) && (
-                  <p className="text-gray-300 mb-1">
-                    <strong>Run TD:</strong> {player.stats.offense.runTD}
-                  </p>
-                )}
-              </>
-            )}
+              {player.stats?.offense && (
+                <>
+                  <h3 className="font-semibold mt-3 mb-1 text-white">
+                    Offense
+                  </h3>
+                  {isValid(player.stats.offense.passYard) && (
+                    <p className="text-gray-300 mb-1">
+                      <strong>Pass Yards:</strong>{" "}
+                      {player.stats.offense.passYard}
+                    </p>
+                  )}
+                  {isValid(player.stats.offense.passTD) && (
+                    <p className="text-gray-300 mb-1">
+                      <strong>Pass TD:</strong> {player.stats.offense.passTD}
+                    </p>
+                  )}
+                  {isValid(player.stats.offense.runYard) && (
+                    <p className="text-gray-300 mb-1">
+                      <strong>Run Yards:</strong> {player.stats.offense.runYard}
+                    </p>
+                  )}
+                  {isValid(player.stats.offense.runTD) && (
+                    <p className="text-gray-300 mb-1">
+                      <strong>Run TD:</strong> {player.stats.offense.runTD}
+                    </p>
+                  )}
+                </>
+              )}
 
-            {player.stats?.defense && (
-              <>
-                <h3 className="font-semibold mt-3 mb-1 text-white">Defense</h3>
-                {isValid(player.stats.defense.tackles) && (
-                  <p className="text-gray-300 mb-1">
-                    <strong>Tackles:</strong> {player.stats.defense.tackles}
-                  </p>
-                )}
-              </>
-            )}
-          </div>
-        ))}
+              {player.stats?.defense && (
+                <>
+                  <h3 className="font-semibold mt-3 mb-1 text-white">
+                    Defense
+                  </h3>
+                  {isValid(player.stats.defense.tackles) && (
+                    <p className="text-gray-300 mb-1">
+                      <strong>Tackles:</strong> {player.stats.defense.tackles}
+                    </p>
+                  )}
+                </>
+              )}
+            </div>
+          ))}
       </div>
     </div>
   );

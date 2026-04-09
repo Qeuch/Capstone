@@ -4,7 +4,11 @@ import axios from "axios";
 
 export default function RegisterPage() {
   //States
-  const [formData, setFormData] = useState({ username: "", password: "", email: ""});
+  const [formData, setFormData] = useState({
+    username: "",
+    password: "",
+    email: "",
+  });
   const [postResponse, setPostResponse] = useState("");
 
   //Handlers
@@ -29,9 +33,8 @@ export default function RegisterPage() {
   const handleOnSubmit = (e) => {
     e.preventDefault();
     handleRegister();
-    setFormData({ username: "", password: "", email: ""});
+    setFormData({ username: "", password: "", email: "" });
   };
-
 
   return (
     <div
@@ -47,7 +50,6 @@ export default function RegisterPage() {
           Create a New User:
         </h1>
 
-
         <FormComponent
           formData={formData}
           handleOnSubmit={handleOnSubmit}
@@ -62,7 +64,7 @@ export default function RegisterPage() {
       </div>
 
       <img
-        src="/images/Cornwall-Wildcats-logo-rev.png"
+        src="/images/wildcats.png"
         alt="Cornwall Wildcats logo"
         className="absolute bottom-6 right-6 w-48 z-20"
       />
