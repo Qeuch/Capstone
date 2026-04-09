@@ -154,6 +154,31 @@ server.post("/", async (request, response) => {
   }
 });
 
+// Checking JWT
+function authenticateToken(req, res, next) {
+  const authHeader = req.headers['authorization'];
+  if (!authHeader) return res.status(403).json({ message: "No token provided" });
+
+  const token = authHeader.split(" ")[1];
+  if (!token) return res.status(403).json({ message: "No token provided" });
+
+  jwt.verify(token, SECRET_KEY, (err, decoded) => {
+    if (err) return res.status(403).json({ message: "Invalid token" });
+    req.user = decoded;
+    next();
+  });
+}
+
+// Get players from the DB (protected)
+server.get("/api/players", async (req, res) => {
+  try {
+    const players = await Player.find();
+    res.json(players);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+
 // always at the end
 // commenting this out for now. I dont know what it's meant to do, but "*" isn't a valid path for a server.get
 
