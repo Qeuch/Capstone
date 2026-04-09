@@ -13,70 +13,117 @@ const playerSchema = new Schema({
     type: String,
     required: true,
   },
+  player_picture: {
+    type: String
+  },
+  email: {
+    type: String,
+    required: true,
+  },
   team: {
     type: String,
+    required: true,
+  },
+  age: {
+    type: Number,
     required: true,
   },
   position: {
     type: String,
     required: true,
   },
+  jersey_number: {
+    type: Number,
+    required: true,
+  },
+  hometown: {
+    type: String,
+    required: true,
+  },
 
   // Offense stats
-  offense: {
-    rushYard: {
+  stats: {
+    gamesPlayed: {
       type: Number,
-      default: null,
     },
-    recYard: {
+    gamesWon:{
       type: Number,
-      default: null,
     },
-    passAtt: {
-      type: Number,
-      default: null,
+    offense: {
+      passYard: {
+        type: Number,
+        default: null,
+      },
+      runYard: {
+        type: Number,
+        default: null,
+      },
+      tackles: {
+        type: Number,
+        default: null,
+      },
+      passTD: {
+        type: Number,
+        default: null,
+      },
+      runTD: {
+        type: Number,
+        default: null,
+      },
+      passAtt: {
+        type: Number,
+        default: null,
+      },
+      passComp: {
+        type: Number,
+        default: null,
+      },
+      fumble: {
+        type: Number,
+        default: null,
+      },
+      penYard: {
+        type: Number,
+        default: null,
+      },
     },
-    passComp: {
-      type: Number,
-      default: null,
-    },
-  },
 
-  // Defense stats
-  defense: {
-    tackles: {
-      type: Number,
-      default: null,
+    // Defense stats
+    defense: {
+      tackles: {
+        type: Number,
+        default: null,
+      },
+      inter: {
+        type: Number,
+        default: null,
+      },
+      forFum: {
+        type: Number,
+        default: null,
+      },
+      block: {
+        type: Number,
+        default: null,
+      },
+      runYard: {
+        type: Number,
+        default: null,
+      },
+      passYard: {
+        type: Number,
+        default: null,
+      },
+      passAtt: {
+        type: Number,
+        default: null,
+      },
+      passComp: {
+        type: Number,
+        default: null,
+      },
     },
-    inter: {
-      type: Number,
-      default: null,
-    },
-    forFum: {
-      type: Number,
-      default: null,
-    },
-    block: {
-      type: Number,
-      default: null,
-    },
-    runYard: {
-      type: Number,
-      default: null,
-    },
-    passYard: {
-      type: Number,
-      default: null,
-    },
-    passAtt: {
-      type: Number,
-      default: null,
-    },
-    passComp: {
-      type: Number,
-      default: null,
-    },
-  },
+},
 });
 
 const Player = mongoose.model("Player", playerSchema, "Players");
