@@ -9,6 +9,7 @@ export default function NavBar({ currentUser, handleLogout }) {
   const links = [
     { label: "Home", path: "" },
     { label: "Roster", path: "roster" },
+    { label: "Player Stats", path: "playerstats"},
     { label: "Schedule", path: "schedule" },
     { label: "Team Stats", path: "teamstats" },
   ];

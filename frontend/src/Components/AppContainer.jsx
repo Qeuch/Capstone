@@ -41,9 +41,11 @@ export default function AppContainer() {
     navigate("/");
   };
   return (
-    <div className="flex">
+    <div className="flex h-screen overflow-hidden">
       <NavBar currentUser={currentUser} handleLogout={handleLogout} />
+      <div className="flex-1 overflow-auto"> {/* allows for the container to be scrollable */}
       <Outlet /> {/* THIS is where pages appear */}
+    </div>
     </div>
   );
 }

@@ -10,6 +10,7 @@ import AppContainer from "./Components/AppContainer";
 import Roster from "./Components/Roster";
 import Schedule from "./Components/Schedule";
 import TeamStats from "./Components/TeamStats";
+import PlayerStats from "./Components/PlayerStats";
 import AddStats from "./Components/AddStats";
 import LandingPage from "./Components/LandingPage";
 // import all containers here
@@ -30,6 +31,7 @@ function App() {
           <Route path="/main" element={<AppContainer />}>
             <Route index element={<LandingPage />} /> {/* 👈 default page */}
             <Route path="roster" element={<Roster />} />
+            <Route path="playerstats" element={<PlayerStats />} /> {/* This won't stay, just want to test the display page */}
             <Route path="schedule" element={<Schedule />} />
             <Route path="teamstats" element={<TeamStats />} />
             <Route path="addstats" element={<AddStats />} />
