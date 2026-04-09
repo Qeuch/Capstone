@@ -65,9 +65,9 @@ export default function PlayerStats() {
               className="bg-gray-800 text-white shadow-lg rounded-lg p-4 flex flex-col"
             >
               {/* Image */}
-              {isValid(player.photo) && (
+              {isValid(player.player_picture) && (
                 <img
-                  src={player.photo || "/images/default-player.png"}
+                  src={player.player_picture?.url || "/images/default-player.png"}
                   alt={`${player.firstName} ${player.lastName}`}
                   className="w-full h-40 object-cover rounded-md mb-4"
                 />
