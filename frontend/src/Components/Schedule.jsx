@@ -3,13 +3,30 @@ import ScheduleCard from "./ScheduleCard";
 export default function Schedule() {
   return (
     <div className="min-h-screen w-full bg-zinc-900">
-      {/* Main Schedule Container */}
-      <div>
-        {/* This will have a loop of some sort to show all the upcoming games in the form of a ScheduleCard component */}
-        <ScheduleCard />
+      
+      {/* Grey content area */}
+      <div className="min-h-screen bg-zinc-500 px-8 py-8">
+
+        {/* Title */}
+        <h1 className="text-4xl font-semibold text-black mb-8">
+          Schedule
+        </h1>
+
+        {/* Cards */}
+        <div className="flex flex-col gap-8 max-w-5xl mx-auto">
+          <ScheduleCard />
+          <ScheduleCard />
+          <ScheduleCard />
+        </div>
+
+        {/* Button */}
+        <div className="mt-10 flex justify-center">
+          <button className="bg-slate-600 text-white px-6 py-3 rounded-lg hover:bg-slate-500 transition">
+            Add Game
+          </button>
+        </div>
+
       </div>
-      {/* Button that should navigate to GameEntryForm */}
-      <button>Add Game</button>
     </div>
   );
 }
