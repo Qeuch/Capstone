@@ -1,6 +1,9 @@
 import ScheduleCard from "./ScheduleCard";
+import { useNavigate } from "react-router-dom";
 
 export default function Schedule() {
+  const navigate = useNavigate();
+
   return (
     <div className="min-h-screen w-full bg-zinc-900">
       
@@ -21,7 +24,8 @@ export default function Schedule() {
 
         {/* Button */}
         <div className="mt-10 flex justify-center">
-          <button className="bg-slate-600 text-white px-6 py-3 rounded-lg hover:bg-slate-500 transition">
+          <button onClick={() => navigate("/main/addgame")}
+          className="bg-slate-600 text-white px-6 py-3 rounded-lg hover:bg-slate-500 transition">
             Add Game
           </button>
         </div>

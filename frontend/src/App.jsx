@@ -5,6 +5,7 @@ import RegisterPage from "./Components/RegisterPage";
 import PageNotFound from "./Components/PageNotFound";
 import NotAuthorized from "./Components/NotAuthorized";
 import AppContainer from "./Components/AppContainer";
+import AddGame from "./Components/AddGame";
 
 // routes for navbar
 import Roster from "./Components/Roster";
@@ -35,6 +36,7 @@ function App() {
             <Route path="schedule" element={<Schedule />} />
             <Route path="teamstats" element={<TeamStats />} />
             <Route path="addstats" element={<AddStats />} />
+            <Route path="addgame" element={<AddGame />} />
           </Route>
 
           {/* This if you try to bypass login. Somewhere further in, we'll have this route accessed 
