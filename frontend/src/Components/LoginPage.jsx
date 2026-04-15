@@ -82,7 +82,7 @@ export default function LoginPage() {
       </div>
 
       <img
-        src="/images/Cornwall-Wildcats-logo-rev.png"
+        src="/images/wildcats.png"
         alt="Cornwall Wildcats logo"
         className="absolute bottom-6 right-6 w-48 z-20"
       />

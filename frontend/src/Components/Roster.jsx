@@ -1,33 +1,39 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
+import PlayerCard from "./PlayerCard";
 
 export default function Roster() {
   const [players, setPlayers] = useState([]);
-  const navigate = useNavigate();
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:3000/api/players")
-      .then((res) => setPlayers(res.data))
-      .catch(console.error);
+    const token = Cookies.get("jwt-authorization");
+
+    if (!token) {
+      setError("Not logged in");
+      return;
+    }
+
+    fetch("http://localhost:3000/api/players", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to fetch");
+        return res.json();
+      })
+      .then((data) => setPlayers(data))
+      .catch((err) => setError(err.message));
   }, []);
 
   return (
-    <div className="min-h-screen bg-zinc-900 text-white p-6">
+    <div className="min-h-screen w-full bg-zinc-900">
+      <div className="p-4">
+        {error && <p className="text-red-500">{error}</p>}
 
-      <h1 className="text-3xl mb-6">Roster</h1>
-
-      <div className="grid grid-cols-3 gap-4">
-        {players.map((p) => (
-          <div
-            key={p._id}
-            onClick={() => navigate(`/main/player/${p._id}`)}
-            className="bg-zinc-800 p-4 rounded cursor-pointer hover:bg-zinc-700"
-          >
-            <h2>{p.firstName} {p.lastName}</h2>
-            <p>{p.position}</p>
-          </div>
+        {players.map((player) => (
+          <PlayerCard key={player._id} player={player} />
         ))}
       </div>
 

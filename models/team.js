@@ -14,6 +14,11 @@ const teamSchema = new Schema({
     default: null,
   },
 
+  image: {
+    type: String,
+    default: null,
+  },
+
   coaching_staff: {
     coach: {
       type: String,
@@ -58,11 +63,11 @@ const teamSchema = new Schema({
   },
 
   scheduled_games: [
-  {
-    type: String,
-    default: null,
-  }
-]
+    {
+      type: String,
+      default: null,
+    },
+  ],
 });
 
 const Team = mongoose.model("Team", teamSchema, "TeamInfo");

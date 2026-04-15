@@ -6,6 +6,7 @@ import PageNotFound from "./Components/PageNotFound";
 import PlayerDetail from "./Components/PlayerDetail";
 import NotAuthorized from "./Components/NotAuthorized";
 import AppContainer from "./Components/AppContainer";
+import AddGame from "./Components/AddGame";
 
 // routes for navbar
 import Roster from "./Components/Roster";
@@ -13,6 +14,7 @@ import Schedule from "./Components/Schedule";
 import TeamStats from "./Components/TeamStats";
 import AddStats from "./Components/AddStats";
 import LandingPage from "./Components/LandingPage";
+import PlayerPage from "./Components/PlayerPage";
 // import all containers here
 
 function App() {
@@ -31,10 +33,13 @@ function App() {
           <Route path="/main" element={<AppContainer />}>
             <Route index element={<LandingPage />} /> {/* 👈 default page */}
             <Route path="roster" element={<Roster />} />
+            <Route path="roster/:id" element={<PlayerPage />} />
+            <Route path="playerstats" element={<PlayerStats />} />{" "}
+            {/* This won't stay, just want to test the display page */}
             <Route path="schedule" element={<Schedule />} />
             <Route path="teamstats" element={<TeamStats />} />
             <Route path="addstats" element={<AddStats />} />
-            <Route path="player/:id" element={<PlayerDetail />} />
+            <Route path="addgame" element={<AddGame />} />
           </Route>
 
           {/* This if you try to bypass login. Somewhere further in, we'll have this route accessed 
