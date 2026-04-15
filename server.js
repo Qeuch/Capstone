@@ -161,7 +161,12 @@ server.post("/", async (request, response) => {
 
   try {
     const user = await User.findOne({ username });
-    if (!user) {
+    if (!user && !password ) {
+      return response.status(404).send({ message: "Missing fields" });
+    } else if (!user || !password ) {
+      return response.status(404).send({ message: "Missing fields" });
+    } 
+    else if (!user )  {
       return response.status(404).send({ message: "User does not exist" });
     }
 
