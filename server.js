@@ -10,7 +10,7 @@ require("dotenv").config();
 const Player = require("./models/player");
 const User = require("./models/user");
 const Game = require("./models/game");
-const Team = require("./models/team")
+const Team = require("./models/team");
 
 // uncomment these later once we have them added
 const { DB_URI } = process.env;
@@ -80,26 +80,27 @@ server.post("/create-user", async (request, response) => {
   const { username, email, password } = request.body;
 
   if (!username || !password || !email) {
-  return response.status(400).send({ message: "Missing fields" });
-} else {
-  try {
-    const id = crypto.randomUUID();
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new User({
-      _id: id,
-      username,
-      email,
-      password: hashedPassword,
-    });
-    await newUser.save();
-    response.send({ message: "User Created!" });
-  } catch (error) {
-    console.log(error);
-    response
-      .status(500)
-      .send({ message: "User Already Exists, please find another username" });
+    return response.status(400).send({ message: "Missing fields" });
+  } else {
+    try {
+      const id = crypto.randomUUID();
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const newUser = new User({
+        _id: id,
+        username,
+        email,
+        password: hashedPassword,
+      });
+      await newUser.save();
+      response.send({ message: "User Created!" });
+    } catch (error) {
+      console.log(error);
+      response
+        .status(500)
+        .send({ message: "User Already Exists, please find another username" });
+    }
   }
-}});
+});
 
 // Adding Player
 
@@ -127,7 +128,7 @@ server.delete("/players/:id", async (request, response) => {
   const { id } = request.params;
   //Server's response to a player being deleted
   try {
-   const result = await Player.findByIdAndDelete(id);
+    const result = await Player.findByIdAndDelete(id);
     response.status(200).send(result);
   } catch (error) {
     console.log(error.message);
@@ -177,7 +178,7 @@ server.post("/", async (request, response) => {
     );
     return response
       .status(201)
-      .send({ message: "User Authenticated" , token: jwtToken });
+      .send({ message: "User Authenticated", token: jwtToken });
   } catch (error) {
     console.error("LOGIN ERROR:", error);
     response.status(500).send({ message: error.message });
@@ -186,8 +187,9 @@ server.post("/", async (request, response) => {
 
 // Checking JWT
 function authenticateToken(req, res, next) {
-  const authHeader = req.headers['authorization'];
-  if (!authHeader) return res.status(403).json({ message: "No token provided" });
+  const authHeader = req.headers["authorization"];
+  if (!authHeader)
+    return res.status(403).json({ message: "No token provided" });
 
   const token = authHeader.split(" ")[1];
   if (!token) return res.status(403).json({ message: "No token provided" });
@@ -206,6 +208,20 @@ server.get("/api/players", async (req, res) => {
     res.json(players);
   } catch (err) {
     res.status(500).send(err);
+  }
+});
+
+server.get("/api/players/:id", async (req, res) => {
+  try {
+    const player = await Player.findById(req.params.id);
+
+    if (!player) {
+      return res.status(404).json({ message: "Player not found" });
+    }
+
+    res.json(player);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 });
 
