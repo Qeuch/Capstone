@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const playerSchema = new Schema({
-  _id: String,
+  // _id: String,
 
   first_name: {
     type: String,
@@ -14,7 +14,7 @@ const playerSchema = new Schema({
     required: true,
   },
   player_picture: {
-    type: String
+    type: String,
   },
   email: {
     type: String,
@@ -46,7 +46,7 @@ const playerSchema = new Schema({
     gamesPlayed: {
       type: Number,
     },
-    gamesWon:{
+    gamesWon: {
       type: Number,
     },
     offense: {
@@ -123,7 +123,7 @@ const playerSchema = new Schema({
         default: null,
       },
     },
-},
+  },
 });
 
 const Player = mongoose.model("Player", playerSchema, "Players");

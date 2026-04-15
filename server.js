@@ -43,15 +43,15 @@ server.get("/not-authorized", (request, response) => {
   response.send("NOT AUTHORIZED!");
 });
 
-// Get players
-server.get("/players", async (request, response) => {
-  console.log("GET /players hit");
-  try {
-    await Player.find().then((result) => response.status(200).send(result));
-  } catch (error) {
-    console.log(error.message);
-  }
-});
+// // Get players
+// server.get("/players", async (request, response) => {
+//   console.log("GET /players hit");
+//   try {
+//     await Player.find().then((result) => response.status(200).send(result));
+//   } catch (error) {
+//     console.log(error.message);
+//   }
+// });
 
 // Get games
 server.get("/games", async (request, response) => {
@@ -201,6 +201,10 @@ function authenticateToken(req, res, next) {
   });
 }
 
+server.get("/api/players/test", (req, res) => {
+  res.send("working");
+});
+
 // Get players from the DB (protected)
 server.get("/api/players", async (req, res) => {
   try {
@@ -221,6 +225,7 @@ server.get("/api/players/:id", async (req, res) => {
 
     res.json(player);
   } catch (err) {
+    console.log("ERROR:", err.message);
     res.status(500).json({ message: err.message });
   }
 });
