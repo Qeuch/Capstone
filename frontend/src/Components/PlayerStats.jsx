@@ -56,8 +56,7 @@ export default function PlayerStats() {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {players
           .filter(
-            (player) =>
-              isValid(player.firstName) || isValid(player.lastName)
+            (player) => isValid(player.firstName) || isValid(player.lastName),
           )
           .map((player) => (
             <div
@@ -113,7 +112,8 @@ export default function PlayerStats() {
 
                   {isValid(player.stats.offense.passYard) && (
                     <p className="text-gray-300">
-                      <strong>Pass Yards:</strong> {player.stats.offense.passYard}
+                      <strong>Pass Yards:</strong>{" "}
+                      {player.stats.offense.passYard}
                     </p>
                   )}
 
@@ -125,13 +125,15 @@ export default function PlayerStats() {
 
                   {isValid(player.stats.offense.passAtt) && (
                     <p className="text-gray-300">
-                      <strong>Pass Attempts:</strong> {player.stats.offense.passAtt}
+                      <strong>Pass Attempts:</strong>{" "}
+                      {player.stats.offense.passAtt}
                     </p>
                   )}
 
                   {isValid(player.stats.offense.passComp) && (
                     <p className="text-gray-300">
-                      <strong>Pass Completions:</strong> {player.stats.offense.passComp}
+                      <strong>Pass Completions:</strong>{" "}
+                      {player.stats.offense.passComp}
                     </p>
                   )}
 
@@ -155,7 +157,8 @@ export default function PlayerStats() {
 
                   {isValid(player.stats.offense.penYard) && (
                     <p className="text-gray-300">
-                      <strong>Penalty Yards:</strong> {player.stats.offense.penYard}
+                      <strong>Penalty Yards:</strong>{" "}
+                      {player.stats.offense.penYard}
                     </p>
                   )}
                 </>
@@ -174,13 +177,15 @@ export default function PlayerStats() {
 
                   {isValid(player.stats.defense.inter) && (
                     <p className="text-gray-300">
-                      <strong>Interceptions:</strong> {player.stats.defense.inter}
+                      <strong>Interceptions:</strong>{" "}
+                      {player.stats.defense.inter}
                     </p>
                   )}
 
                   {isValid(player.stats.defense.forFum) && (
                     <p className="text-gray-300">
-                      <strong>Forced Fumbles:</strong> {player.stats.defense.forFum}
+                      <strong>Forced Fumbles:</strong>{" "}
+                      {player.stats.defense.forFum}
                     </p>
                   )}
 
