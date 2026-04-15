@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Cookies from "js-cookie";
 import PlayerCard from "./PlayerCard";
 
@@ -27,14 +27,30 @@ export default function Roster() {
       .catch((err) => setError(err.message));
   }, []);
 
+  const sortedPlayers = useMemo(() => {
+    return [...players].sort((a, b) => {
+      const aNumber = Number(a.number ?? a.jerseyNumber ?? 9999);
+      const bNumber = Number(b.number ?? b.jerseyNumber ?? 9999);
+      return aNumber - bNumber;
+    });
+  }, [players]);
+
   return (
     <div className="min-h-screen w-full bg-zinc-900">
-      <div className="p-4">
-        {error && <p className="text-red-500">{error}</p>}
+      <div className="min-h-screen bg-zinc-700 px-6 py-8">
+        <h1 className="mb-8 text-4xl font-bold text-black">Roster</h1>
 
-        {players.map((player) => (
-          <PlayerCard key={player._id} player={player} />
-        ))}
+        {error && (
+          <p className="mb-6 rounded-lg bg-red-200 px-4 py-3 text-red-700">
+            {error}
+          </p>
+        )}
+
+        <div className="mx-auto max-w-7xl grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+          {sortedPlayers.map((player) => (
+            <PlayerCard key={player._id} player={player} />
+          ))}
+        </div>
       </div>
     </div>
   );
