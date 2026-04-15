@@ -6,9 +6,9 @@ const positionMap = {
   quarterback: "Quarterback",
   wideReceiver1: "Wide Receiver",
   wideReceiver2: "Wide Receiver",
-  runningBack1: "Running Back",
-  runningBack2: "Running Back",
+  runningBack: "Running Back",
   linebacker1: "Linebacker",
+  leftTackle: "Left Tackle",
 };
 
 // Helper: checks if a value is meaningful
@@ -64,12 +64,13 @@ export default function PlayerStats() {
               className="bg-gray-800 text-white shadow-lg rounded-lg p-4 flex flex-col"
             >
               {/* Image */}
-
-              <img
-                src={player.player_picture}
-                alt={`${player.firstName} ${player.lastName}`}
-                className="w-full h-40 object-cover rounded-md mb-4"
-              />
+              {isValid(player.player_picture) && (
+                <img
+                  src={player.player_picture || "/images/default-player.png"}
+                  alt={`${player.firstName} ${player.lastName}`}
+                  className="w-full h-40 object-cover rounded-md mb-4"
+                />
+              )}
 
               {/* Basic Info */}
               <h2 className="text-xl font-semibold mb-2">
