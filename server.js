@@ -43,6 +43,16 @@ server.get("/not-authorized", (request, response) => {
   response.send("NOT AUTHORIZED!");
 });
 
+server.get("/games", async (req, res) => {
+  try {
+    const games = await Game.find();
+    res.json(games);
+  } catch (error) {
+    console.error("Error fetching games:", error);
+    res.status(500).json({ message: "Error fetching games" });
+  }
+});
+
 // // Get players
 // server.get("/players", async (request, response) => {
 //   console.log("GET /players hit");
@@ -102,6 +112,35 @@ server.post("/create-user", async (request, response) => {
   }
 });
 
+//Adding Games to schedule
+server.post("/games", async (req, res) => {
+  try {
+    const {
+      game_date,
+      home_team,
+      away_team,
+      home_score,
+      away_score,
+      weather_conditions,
+    } = req.body;
+
+    const newGame = new Game({
+      _id: new mongoose.Types.ObjectId().toString(),
+      game_date,
+      home_team,
+      away_team,
+      home_score,
+      away_score,
+      weather_conditions,
+    });
+
+    await newGame.save();
+    res.status(201).json(newGame);
+  } catch (error) {
+    console.error("Error creating game:", error);
+    res.status(500).json({ message: "Error creating game" });
+  }
+});
 // Adding Player
 
 server.post("/add-player", async (request, response) => {

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function AddGame() {
   const [teams, setTeams] = useState([]);
@@ -7,6 +8,7 @@ export default function AddGame() {
   const [awayTeamId, setAwayTeamId] = useState("");
   const [location, setLocation] = useState("");
   const [dateTime, setDateTime] = useState("");
+  const navigate = useNavigate();
 
 
 useEffect(() => {
@@ -35,6 +37,29 @@ useEffect(() => {
 
     fetchTeams();
   }, []); */
+
+
+const handleSubmit = async () => {
+  if (!homeTeamId || !awayTeamId || !dateTime) {
+    console.log("Missing required fields");
+    return;
+  }
+
+  try {
+    await axios.post("http://localhost:3000/games", {
+      game_date: dateTime,
+      home_team: homeTeamId,
+      away_team: awayTeamId,
+      home_score: 0,
+      away_score: 0,
+      weather_conditions: "",
+    });
+
+    navigate("/main/schedule");
+  } catch (error) {
+    console.error("Error saving game:", error.response?.data || error);
+  }
+};
 
   const homeTeam = teams.find((team) => team._id === homeTeamId);
   const awayTeam = teams.find((team) => team._id === awayTeamId);
@@ -109,13 +134,12 @@ useEffect(() => {
                 <label className="mb-2 block text-2xl font-medium text-zinc-800">
                   Date/Time
                 </label>
-                <input
-                  type="text"
-                  value={dateTime}
-                  onChange={(e) => setDateTime(e.target.value)}
-                  placeholder="Enter Date/Time"
-                  className="w-full rounded-xl bg-zinc-100 px-4 py-3 text-xl text-black placeholder:text-zinc-500 outline-none"
-                />
+                    <input
+                     type="datetime-local"
+                      value={dateTime}
+                      onChange={(e) => setDateTime(e.target.value)}
+                      className="w-full rounded-xl bg-zinc-100 px-4 py-3 text-xl text-black placeholder:text-zinc-500 outline-none"
+                    />
               </div>
             </div>
 
@@ -176,7 +200,8 @@ useEffect(() => {
               </div>
 
               <div className="mt-6 flex w-full max-w-3xl justify-end">
-                <button className="rounded-xl bg-gradient-to-r from-zinc-700 to-zinc-600 px-8 py-3 text-xl font-semibold text-white shadow-[4px_4px_0px_rgba(0,0,0,0.4)] transition hover:translate-y-[2px] hover:shadow-[2px_2px_0px_rgba(0,0,0,0.4)] active:translate-y-[4px] active:shadow-none">
+                <button onClick={handleSubmit}
+                className="rounded-xl bg-gradient-to-r from-zinc-700 to-zinc-600 px-8 py-3 text-xl font-semibold text-white shadow-[4px_4px_0px_rgba(0,0,0,0.4)] transition hover:translate-y-[2px] hover:shadow-[2px_2px_0px_rgba(0,0,0,0.4)] active:translate-y-[4px] active:shadow-none">
                     Submit Game
                 </button>
               </div>
