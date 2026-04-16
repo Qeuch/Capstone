@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
+import { getUser } from "./auth";
 
 export default function NotAuthorized() {
+  const user = getUser();
+
   return (
     <div className="min-h-screen flex items-center justify-center relative text-center">
-      {/* Background */}
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{
@@ -12,7 +14,6 @@ export default function NotAuthorized() {
       />
       <div className="absolute inset-0 bg-black/70" />
 
-      {/* Content */}
       <div className="relative z-10 text-white">
         <h1 className="text-7xl font-bold text-red-500 drop-shadow-lg mb-4">
           Error: 403
@@ -23,10 +24,10 @@ export default function NotAuthorized() {
         </p>
 
         <Link
-          to="/"
+          to={user ? "/main" : "/"}
           className="inline-block px-6 py-3 bg-red-600 hover:bg-red-700 transition rounded-lg text-white font-semibold shadow-lg no-underline"
         >
-          Go Back to Login
+          {user ? "Go Back to Main" : "Go Back to Login"}
         </Link>
       </div>
     </div>

@@ -26,20 +26,23 @@ export default function AppContainer() {
 
   // I KNOW THERE'S AN ERROR HERE JUST IGNORE IT I SWEAR ITS OKAY
   useEffect(() => {
-    const token = Cookies.get("jwt-authorization");
-    if (!token) {
-      navigate("/not-authorized");
-    } else {
-      setCurrent(token);
-    }
-  }, []);
+  const token = localStorage.getItem("token");
+  if (!token) {
+    navigate("/");
+  } else {
+    setCurrent(token);
+  }
+}, [navigate]);
 
   // Handlers //
   const handleLogout = () => {
-    Cookies.remove("jwt-authorization");
-    setCurrentUser("");
-    navigate("/");
-  };
+  localStorage.removeItem("token");
+  setCurrentUser({
+    username: "",
+    role: "",
+  });
+  navigate("/");
+};
   return (
     <div className="flex h-screen overflow-hidden">
       <NavBar currentUser={currentUser} handleLogout={handleLogout} />

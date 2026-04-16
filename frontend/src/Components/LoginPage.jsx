@@ -18,21 +18,23 @@ export default function LoginPage() {
   };
 
   const handleLogin = async () => {
-    try {
-      const response = await axios.post("http://localhost:3000/", formData);
+  try {
+    const response = await axios.post("http://localhost:3000/", formData);
 
-      setPostResponse(response.data.message);
+    console.log("FULL LOGIN RESPONSE:", response.data);
 
-      if (response.status === 201) {
-        Cookies.set("jwt-authorization", response.data.token);
-        navigate("/main");
-      }
-    } catch (error) {
-      setPostResponse(
-        error?.response?.data?.message || "Login failed. Please try again.",
-      );
+    setPostResponse(response.data.message);
+
+    if (response.status === 201) {
+      localStorage.setItem("token", response.data.token);
+      navigate("/main");
     }
-  };
+  } catch (error) {
+    setPostResponse(
+      error?.response?.data?.message || "Login failed. Please try again.",
+    );
+  }
+};
 
   const handleOnSubmit = (e) => {
     e.preventDefault();

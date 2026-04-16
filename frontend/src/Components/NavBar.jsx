@@ -34,15 +34,15 @@ export default function NavBar({ currentUser, handleLogout }) {
                 ? location.pathname === "/main"
                 : location.pathname.includes(`/${link.path}`)
             }
-            onClick={() => navigate(`${link.path}`)}
+            onClick={() => navigate(link.path === "" ? "/main" : `/main/${link.path}`)}
           />
         ))}
         {currentUser.role === "admin" ? (
           <SideButton
             key="addstats"
             label="Add Stats"
-            active={location.pathname.includes("/addstats")}
-            onClick={() => navigate("addstats")}
+            active={location.pathname.includes("/main/addstats")}
+            onClick={() => navigate("/main/addstats")}
           />
         ) : null}
       </div>
