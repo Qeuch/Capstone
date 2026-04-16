@@ -100,6 +100,7 @@ server.post("/create-user", async (request, response) => {
         username,
         email,
         password: hashedPassword,
+        role: "user"
       });
       await newUser.save();
       response.send({ message: "User Created!" });
@@ -216,7 +217,9 @@ server.post("/", async (request, response) => {
     }
 
     const jwtToken = jwt.sign(
-      { id: user._id, username, role: user.role },
+      { id: user._id,
+        username: user.username, 
+        role: user.role || user },
       SECRET_KEY,
     );
     return response
@@ -334,6 +337,29 @@ server.get("/api/teamstats/:team", async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 });
+// get stats from players
+server.patch("/api/players/:id/stats", async (req, res) => {
+  const { statType, value } = req.body;
+
+  try {
+    const update = {
+      $inc: {
+        [statType]: value,
+      },
+    };
+
+    const player = await Player.findByIdAndUpdate(
+      req.params.id,
+      update,
+      { new: true }
+    );
+
+    res.json(player);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 // always at the end
 // commenting this out for now. I dont know what it's meant to do, but "*" isn't a valid path for a server.get
 
