@@ -289,6 +289,29 @@ server.get("/api/games/upcoming", async (req, res) => {
   }
 });
 
+// get stats from players
+server.patch("/api/players/:id/stats", async (req, res) => {
+  const { statType, value } = req.body;
+
+  try {
+    const update = {
+      $inc: {
+        [statType]: value,
+      },
+    };
+
+    const player = await Player.findByIdAndUpdate(
+      req.params.id,
+      update,
+      { new: true }
+    );
+
+    res.json(player);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 // always at the end
 // commenting this out for now. I dont know what it's meant to do, but "*" isn't a valid path for a server.get
 
