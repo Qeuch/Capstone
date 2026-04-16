@@ -33,6 +33,11 @@ const gameSchema = new Schema({
     type: String,
     default: null,
   },
+
+  upcoming: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 const Game = mongoose.model("Game", gameSchema, "Games");

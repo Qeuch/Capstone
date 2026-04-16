@@ -1,7 +1,10 @@
-export default function ScheduleCard() {
+export default function ScheduleCard({ game }) {
   return (
     <div>
-      <h1>Schedule Card template</h1>
+      <h2>
+        {game.home_team} vs {game.away_team}
+      </h2>
+      <p>{new Date(game.game_date).toLocaleDateString()}</p>
     </div>
   );
 }

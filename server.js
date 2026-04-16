@@ -43,15 +43,16 @@ server.get("/not-authorized", (request, response) => {
   response.send("NOT AUTHORIZED!");
 });
 
-server.get("/games", async (req, res) => {
-  try {
-    const games = await Game.find();
-    res.json(games);
-  } catch (error) {
-    console.error("Error fetching games:", error);
-    res.status(500).json({ message: "Error fetching games" });
-  }
-});
+// we had two of these for some reason
+// server.get("/games", async (req, res) => {
+//   try {
+//     const games = await Game.find();
+//     res.json(games);
+//   } catch (error) {
+//     console.error("Error fetching games:", error);
+//     res.status(500).json({ message: "Error fetching games" });
+//   }
+// });
 
 // // Get players
 // server.get("/players", async (request, response) => {
@@ -75,7 +76,6 @@ server.get("/games", async (request, response) => {
 
 // Get teams
 server.get("/teams", async (request, response) => {
-  console.log("GET /teams hit");
   try {
     await Team.find().then((result) => response.status(200).send(result));
   } catch (error) {
@@ -126,7 +126,7 @@ server.post("/games", async (req, res) => {
 
     const newGame = new Game({
       _id: new mongoose.Types.ObjectId().toString(),
-      game_date,
+      game_date: new Date(game_date),
       home_team,
       away_team,
       home_score,
@@ -200,12 +200,11 @@ server.post("/", async (request, response) => {
 
   try {
     const user = await User.findOne({ username });
-    if (!user && !password ) {
+    if (!user && !password) {
       return response.status(404).send({ message: "Missing fields" });
-    } else if (!user || !password ) {
+    } else if (!user || !password) {
       return response.status(404).send({ message: "Missing fields" });
-    } 
-    else if (!user )  {
+    } else if (!user) {
       return response.status(404).send({ message: "User does not exist" });
     }
 
@@ -271,6 +270,19 @@ server.get("/api/players/:id", async (req, res) => {
   } catch (err) {
     console.log("ERROR:", err.message);
     res.status(500).json({ message: err.message });
+  }
+});
+// get games for the schedule
+server.get("/api/games/upcoming", async (req, res) => {
+  try {
+    const games = await Game.find({
+      game_date: { $gte: new Date() },
+    }).sort({ game_date: 1 });
+
+    res.json(games);
+  } catch (error) {
+    console.error("Error fetching upcoming games:", error);
+    res.status(500).json({ message: "Error fetching upcoming games" });
   }
 });
 
