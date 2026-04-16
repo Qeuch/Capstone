@@ -286,6 +286,54 @@ server.get("/api/games/upcoming", async (req, res) => {
   }
 });
 
+server.get("/api/teamstats/:team", async (req, res) => {
+  try {
+    const result = await Player.aggregate([
+      {
+        $group: {
+          _id: "$team",
+
+          // ======================
+          // ROOT
+          // ======================
+          gamesPlayed: { $sum: { $ifNull: ["$stats.gamesPlayed", 0] } },
+          gamesWon: { $sum: { $ifNull: ["$stats.gamesWon", 0] } },
+
+          // ======================
+          // OFFENSE (FULL MODEL)
+          // ======================
+          off_passYard: { $sum: { $ifNull: ["$stats.offense.passYard", 0] } },
+          off_runYard: { $sum: { $ifNull: ["$stats.offense.runYard", 0] } },
+          off_tackles: { $sum: { $ifNull: ["$stats.offense.tackles", 0] } },
+          off_passTD: { $sum: { $ifNull: ["$stats.offense.passTD", 0] } },
+          off_runTD: { $sum: { $ifNull: ["$stats.offense.runTD", 0] } },
+          off_passAtt: { $sum: { $ifNull: ["$stats.offense.passAtt", 0] } },
+          off_passComp: { $sum: { $ifNull: ["$stats.offense.passComp", 0] } },
+          off_fumble: { $sum: { $ifNull: ["$stats.offense.fumble", 0] } },
+          off_penYard: { $sum: { $ifNull: ["$stats.offense.penYard", 0] } },
+
+          // ======================
+          // DEFENSE (FULL MODEL)
+          // ======================
+          def_tackles: { $sum: { $ifNull: ["$stats.defense.tackles", 0] } },
+          def_inter: { $sum: { $ifNull: ["$stats.defense.inter", 0] } },
+          def_forFum: { $sum: { $ifNull: ["$stats.defense.forFum", 0] } },
+          def_block: { $sum: { $ifNull: ["$stats.defense.block", 0] } },
+
+          def_runYard: { $sum: { $ifNull: ["$stats.defense.runYard", 0] } },
+          def_passYard: { $sum: { $ifNull: ["$stats.defense.passYard", 0] } },
+          def_passAtt: { $sum: { $ifNull: ["$stats.defense.passAtt", 0] } },
+          def_passComp: { $sum: { $ifNull: ["$stats.defense.passComp", 0] } },
+        },
+      },
+    ]);
+
+    res.json(result[0] || {});
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+});
 // always at the end
 // commenting this out for now. I dont know what it's meant to do, but "*" isn't a valid path for a server.get
 
