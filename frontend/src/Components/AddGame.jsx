@@ -50,7 +50,7 @@ export default function AddGame() {
         away_team: awayTeam?.team_name,
         home_score: 0,
         away_score: 0,
-        location,
+        location: location,
         weather_conditions: "",
         upcoming: true,
       });

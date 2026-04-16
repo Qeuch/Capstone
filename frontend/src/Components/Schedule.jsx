@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import ScheduleCard from "./ScheduleCard";
 import { useNavigate } from "react-router-dom";
 
-export default function Schedule() {
+export default function Schedule({user}) {
   const navigate = useNavigate();
   const [games, setGames] = useState([]);
 
@@ -35,14 +35,16 @@ export default function Schedule() {
         </div>
 
         {/* Button */}
-        <div className="mt-10 flex justify-center">
-          <button
-            onClick={() => navigate("/main/addgame")}
-            className="bg-slate-600 text-white px-6 py-3 rounded-lg hover:bg-slate-500 transition"
-          >
-            Add Game
-          </button>
-        </div>
+          {user?.role === "admin" && (
+  <div className="mt-10 flex justify-center">
+    <button
+      onClick={() => navigate("/main/addgame")}
+      className="bg-slate-600 text-white px-6 py-3 rounded-lg hover:bg-slate-500 transition"
+    >
+      Add Game
+    </button>
+  </div>
+)}
       </div>
     </div>
   );
