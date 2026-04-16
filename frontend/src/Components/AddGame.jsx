@@ -10,22 +10,21 @@ export default function AddGame() {
   const [dateTime, setDateTime] = useState("");
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const fetchTeams = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/teams");
+        console.log("TEAMS RESPONSE:", response.data);
+        setTeams(response.data);
+      } catch (error) {
+        console.error("Error fetching teams:", error);
+      }
+    };
 
-useEffect(() => {
-  const fetchTeams = async () => {
-    try {
-      const response = await axios.get("http://localhost:3000/teams");
-      console.log("TEAMS RESPONSE:", response.data);
-      setTeams(response.data);
-    } catch (error) {
-      console.error("Error fetching teams:", error);
-    }
-  };
+    fetchTeams();
+  }, []);
 
-  fetchTeams();
-}, []);
-
-/*   useEffect(() => {
+  /*   useEffect(() => {
     const fetchTeams = async () => {
       try {
         const response = await axios.get("http://localhost:3000/teams");
@@ -38,28 +37,29 @@ useEffect(() => {
     fetchTeams();
   }, []); */
 
+  const handleSubmit = async () => {
+    if (!homeTeamId || !awayTeamId || !dateTime) {
+      console.log("Missing required fields");
+      return;
+    }
 
-const handleSubmit = async () => {
-  if (!homeTeamId || !awayTeamId || !dateTime) {
-    console.log("Missing required fields");
-    return;
-  }
+    try {
+      await axios.post("http://localhost:3000/games", {
+        game_date: dateTime,
+        home_team: homeTeam?.team_name,
+        away_team: awayTeam?.team_name,
+        home_score: 0,
+        away_score: 0,
+        location,
+        weather_conditions: "",
+        upcoming: true,
+      });
 
-  try {
-    await axios.post("http://localhost:3000/games", {
-      game_date: dateTime,
-      home_team: homeTeamId,
-      away_team: awayTeamId,
-      home_score: 0,
-      away_score: 0,
-      weather_conditions: "",
-    });
-
-    navigate("/main/schedule");
-  } catch (error) {
-    console.error("Error saving game:", error.response?.data || error);
-  }
-};
+      navigate("/main/schedule");
+    } catch (error) {
+      console.error("Error saving game:", error.response?.data || error);
+    }
+  };
 
   const homeTeam = teams.find((team) => team._id === homeTeamId);
   const awayTeam = teams.find((team) => team._id === awayTeamId);
@@ -73,10 +73,8 @@ const handleSubmit = async () => {
 
         <div className="rounded-xl border-4 border-zinc-700 bg-zinc-600 p-6">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
-            
             {/* Left side form */}
             <div className="w-full max-w-sm rounded-2xl border-4 border-zinc-800 bg-zinc-300 p-4">
-              
               <div className="mb-4">
                 <label className="mb-2 block text-2xl font-medium text-zinc-800">
                   Home Team
@@ -134,12 +132,12 @@ const handleSubmit = async () => {
                 <label className="mb-2 block text-2xl font-medium text-zinc-800">
                   Date/Time
                 </label>
-                    <input
-                     type="datetime-local"
-                      value={dateTime}
-                      onChange={(e) => setDateTime(e.target.value)}
-                      className="w-full rounded-xl bg-zinc-100 px-4 py-3 text-xl text-black placeholder:text-zinc-500 outline-none"
-                    />
+                <input
+                  type="datetime-local"
+                  value={dateTime}
+                  onChange={(e) => setDateTime(e.target.value)}
+                  className="w-full rounded-xl bg-zinc-100 px-4 py-3 text-xl text-black placeholder:text-zinc-500 outline-none"
+                />
               </div>
             </div>
 
@@ -151,7 +149,6 @@ const handleSubmit = async () => {
 
               <div className="w-full max-w-3xl rounded-2xl border-4 border-zinc-800 bg-zinc-300 p-8">
                 <div className="flex items-center justify-between gap-6">
-                  
                   <div className="flex flex-col items-center">
                     <div className="flex h-28 w-28 items-center justify-center rounded-xl bg-white shadow">
                       {homeTeam?.image ? (
@@ -195,18 +192,18 @@ const handleSubmit = async () => {
                       {awayTeam?.team_name || "Away"}
                     </p>
                   </div>
-
                 </div>
               </div>
 
               <div className="mt-6 flex w-full max-w-3xl justify-end">
-                <button onClick={handleSubmit}
-                className="rounded-xl bg-gradient-to-r from-zinc-700 to-zinc-600 px-8 py-3 text-xl font-semibold text-white shadow-[4px_4px_0px_rgba(0,0,0,0.4)] transition hover:translate-y-[2px] hover:shadow-[2px_2px_0px_rgba(0,0,0,0.4)] active:translate-y-[4px] active:shadow-none">
-                    Submit Game
+                <button
+                  onClick={handleSubmit}
+                  className="rounded-xl bg-gradient-to-r from-zinc-700 to-zinc-600 px-8 py-3 text-xl font-semibold text-white shadow-[4px_4px_0px_rgba(0,0,0,0.4)] transition hover:translate-y-[2px] hover:shadow-[2px_2px_0px_rgba(0,0,0,0.4)] active:translate-y-[4px] active:shadow-none"
+                >
+                  Submit Game
                 </button>
               </div>
             </div>
-
           </div>
         </div>
       </div>
