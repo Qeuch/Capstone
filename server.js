@@ -100,6 +100,7 @@ server.post("/create-user", async (request, response) => {
         username,
         email,
         password: hashedPassword,
+        role: "user"
       });
       await newUser.save();
       response.send({ message: "User Created!" });
@@ -216,7 +217,9 @@ server.post("/", async (request, response) => {
     }
 
     const jwtToken = jwt.sign(
-      { id: user._id, username, role: user.role },
+      { id: user._id,
+        username: user.username, 
+        role: user.role || user },
       SECRET_KEY,
     );
     return response
