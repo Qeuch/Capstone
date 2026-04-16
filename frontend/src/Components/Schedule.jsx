@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import ScheduleCard from "./ScheduleCard";
 import { useNavigate } from "react-router-dom";
+import { useOutletContext } from "react-router-dom";
 
-export default function Schedule({user}) {
+export default function Schedule() {
   const navigate = useNavigate();
   const [games, setGames] = useState([]);
+  const { currentUser } = useOutletContext();
 
   useEffect(() => {
     const fetchGames = async () => {
@@ -35,16 +37,16 @@ export default function Schedule({user}) {
         </div>
 
         {/* Button */}
-          {user?.role === "admin" && (
-  <div className="mt-10 flex justify-center">
-    <button
-      onClick={() => navigate("/main/addgame")}
-      className="bg-slate-600 text-white px-6 py-3 rounded-lg hover:bg-slate-500 transition"
-    >
-      Add Game
-    </button>
-  </div>
-)}
+        {currentUser.role === "admin" && (
+          <div className="mt-10 flex justify-center">
+            <button
+              onClick={() => navigate("/main/addgame")}
+              className="bg-slate-600 text-white px-6 py-3 rounded-lg hover:bg-slate-500 transition"
+            >
+              Add Game
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

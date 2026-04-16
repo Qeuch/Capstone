@@ -32,89 +32,142 @@ export default function PlayerPage() {
     player.playerName ||
     "Unknown Player";
 
+  const positionMap = {
+    quarterback: "Quarterback",
+    wideReceiver1: "Wide Receiver",
+    wideReceiver2: "Wide Receiver",
+    runningBack: "Running Back",
+    linebacker1: "Linebacker",
+    leftTackle: "Left Tackle",
+  };
   const stats = [
-    { label: "Jersey Number", value: player.jerseyNumber ?? "N/A" },
-    { label: "Position", value: player.position ?? player.role ?? "N/A" },
+    { label: "Name", value: `${player.firstName} ${player.lastName}` ?? "N/A" },
+
+    {
+      label: "Position",
+      value: positionMap[player.position] ?? player.position ?? "N/A",
+    },
     { label: "Age", value: player.age ?? "N/A" },
-    { label: "Height", value: player.height ?? "N/A" },
-    { label: "Weight", value: player.weight ?? "N/A" },
-    { label: "Hometown", value: player.from ?? player.hometown ?? "N/A" },
+    { label: "Hometown", value: player.hometown ?? "N/A" },
     { label: "Team", value: player.team ?? "N/A" },
-    { label: "Games Played", value: player.gamesPlayed ?? "N/A" },
-    { label: "Touchdowns", value: player.touchdowns ?? "N/A" },
-    { label: "Passing Yards", value: player.passingYards ?? "N/A" },
-    { label: "Rushing Yards", value: player.rushingYards ?? "N/A" },
-    { label: "Receiving Yards", value: player.receivingYards ?? "N/A" },
-    { label: "Tackles", value: player.tackles ?? "N/A" },
-    { label: "Interceptions", value: player.interceptions ?? "N/A" },
+
+    { label: "Games Played", value: player.stats?.gamesPlayed ?? "N/A" },
+    { label: "Games Won", value: player.stats?.gamesWon ?? "N/A" },
+
+    // OFFENSE
+    {
+      label: "Passing Yards",
+      value: player.stats?.offense?.passYard ?? 0,
+    },
+    {
+      label: "Rushing Yards",
+      value: player.stats?.offense?.runYard ?? 0,
+    },
+    {
+      label: "Passing TD",
+      value: player.stats?.offense?.passTD ?? 0,
+    },
+    {
+      label: "Rushing TD",
+      value: player.stats?.offense?.runTD ?? 0,
+    },
+    {
+      label: "Pass Attempts",
+      value: player.stats?.offense?.passAtt ?? 0,
+    },
+    {
+      label: "Pass Completions",
+      value: player.stats?.offense?.passComp ?? 0,
+    },
+    {
+      label: "Fumbles",
+      value: player.stats?.offense?.fumble ?? 0,
+    },
+    {
+      label: "Penalty Yards",
+      value: player.stats?.offense?.penYard ?? 0,
+    },
+
+    // DEFENSE
+    {
+      label: "Tackles",
+      value: player.stats?.defense?.tackles ?? 0,
+    },
+    {
+      label: "Interceptions",
+      value: player.stats?.defense?.inter ?? 0,
+    },
+    {
+      label: "Forced Fumbles",
+      value: player.stats?.defense?.forFum ?? 0,
+    },
+    {
+      label: "Blocks",
+      value: player.stats?.defense?.block ?? 0,
+    },
   ];
 
-return (
-  <div className="min-h-screen w-full bg-zinc-500 text-black">
+  return (
+    <div className="min-h-screen w-full bg-zinc-500 text-black">
+      {/* Top Section */}
+      <div className="w-full bg-zinc-600 py-10 px-6 flex flex-col items-center shadow-md">
+        {/* Image */}
+        <div className="w-full max-w-md overflow-hidden rounded-2xl border-4 border-zinc-800 shadow-[6px_6px_0px_rgba(0,0,0,0.35)]">
+          {player.player_picture ? (
+            <img
+              src={player.player_picture}
+              alt={fullName}
+              className="h-80 w-full object-cover"
+            />
+          ) : (
+            <div className="flex h-80 items-center justify-center text-zinc-300">
+              <img src="/images/defaultPlayer.png" alt="" />
+            </div>
+          )}
+        </div>
 
-    {/* Top Section */}
-    <div className="w-full bg-zinc-600 py-10 px-6 flex flex-col items-center shadow-md">
-
-      {/* Image */}
-      <div className="w-full max-w-md overflow-hidden rounded-2xl border-4 border-zinc-800 shadow-[6px_6px_0px_rgba(0,0,0,0.35)]">
-        {player.image ? (
-          <img
-            src={player.image}
-            alt={fullName}
-            className="h-80 w-full object-cover"
-          />
-        ) : (
-          <div className="flex h-80 items-center justify-center text-zinc-300">
-            <img src="/images\defaultPlayer.png" alt="" />
-          </div>
-        )}
-      </div>
-
-      {/* Name + Info */}
-      <h1 className="mt-6 text-4xl font-bold text-white">{fullName}</h1>
-      <p className="text-2xl text-zinc-200">
-        {player.position || player.role || "No Position"}
-      </p>
-
-      <div className="mt-3 rounded-full bg-zinc-300 px-5 py-2 text-lg font-bold text-zinc-800 border-2 border-zinc-700">
-        #{player.jerseyNumber ?? "N/A"}
-      </div>
-    </div>
-
-    {/* Stats Section */}
-    <div className="px-6 py-10 max-w-6xl mx-auto">
-
-      <h2 className="text-3xl font-bold mb-6 text-black">Player Stats</h2>
-
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
-        {stats.map((stat) => (
-          <div
-            key={stat.label}
-            className="rounded-2xl border-4 border-zinc-800 bg-zinc-300 p-4 shadow-[6px_6px_0px_rgba(0,0,0,0.35)]"
-          >
-            <p className="text-sm font-semibold uppercase tracking-wide text-zinc-600">
-              {stat.label}
-            </p>
-            <p className="mt-2 text-2xl font-bold text-zinc-900">
-              {stat.value}
-            </p>
-          </div>
-        ))}
-      </div>
-
-    </div>
-
-    {/* Bio Section */}
-    <div className="px-6 pb-12 max-w-6xl mx-auto">
-      <h2 className="text-3xl font-bold mb-4 text-black">Player Bio</h2>
-
-      <div className="rounded-2xl border-4 border-zinc-800 bg-zinc-300 p-5 shadow-[6px_6px_0px_rgba(0,0,0,0.35)]">
-        <p className="text-lg text-zinc-800">
-          {player.bio || "No player bio available."}
+        {/* Name + Info */}
+        <h1 className="mt-6 text-4xl font-bold text-white">{fullName}</h1>
+        <p className="text-2xl text-zinc-200">
+          {player.position || player.role || "No Position"}
         </p>
+
+        <div className="mt-3 rounded-full bg-zinc-300 px-5 py-2 text-lg font-bold text-zinc-800 border-2 border-zinc-700">
+          #{player.jerseyNumber ?? "N/A"}
+        </div>
+      </div>
+
+      {/* Stats Section */}
+      <div className="px-6 py-10 max-w-6xl mx-auto">
+        <h2 className="text-3xl font-bold mb-6 text-black">Player Stats</h2>
+
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+          {stats.map((stat) => (
+            <div
+              key={stat.label}
+              className="rounded-2xl border-4 border-zinc-800 bg-zinc-300 p-4 shadow-[6px_6px_0px_rgba(0,0,0,0.35)]"
+            >
+              <p className="text-sm font-semibold uppercase tracking-wide text-zinc-600">
+                {stat.label}
+              </p>
+              <p className="mt-2 text-2xl font-bold text-zinc-900">
+                {stat.value}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Bio Section */}
+      <div className="px-6 pb-12 max-w-6xl mx-auto">
+        <h2 className="text-3xl font-bold mb-4 text-black">Player Bio</h2>
+
+        <div className="rounded-2xl border-4 border-zinc-800 bg-zinc-300 p-5 shadow-[6px_6px_0px_rgba(0,0,0,0.35)]">
+          <p className="text-lg text-zinc-800">
+            {player.bio || "No player bio available."}
+          </p>
+        </div>
       </div>
     </div>
-
-  </div>
-);
+  );
 }

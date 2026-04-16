@@ -43,9 +43,11 @@ export default function AppContainer() {
   return (
     <div className="flex h-screen overflow-hidden">
       <NavBar currentUser={currentUser} handleLogout={handleLogout} />
-      <div className="flex-1 overflow-auto"> {/* allows for the container to be scrollable */}
-      <Outlet /> {/* THIS is where pages appear */}
-    </div>
+      <div className="flex-1 overflow-auto">
+        {" "}
+        {/* allows for the container to be scrollable */}
+        <Outlet context={{ currentUser }} /> {/* THIS is where pages appear */}
+      </div>
     </div>
   );
 }

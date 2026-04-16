@@ -3,10 +3,18 @@ import { Link } from "react-router-dom";
 export default function PlayerCard({ player }) {
   if (!player) return null;
 
+  const positionMap = {
+    quarterback: "Quarterback",
+    wideReceiver1: "Wide Receiver",
+    wideReceiver2: "Wide Receiver",
+    runningBack: "Running Back",
+    linebacker1: "Linebacker",
+    leftTackle: "Left Tackle",
+  };
   const {
     _id,
-    first_name,
-    last_name,
+    firstName,
+    lastName,
     player_picture,
     position,
     jersey_number,
@@ -15,22 +23,21 @@ export default function PlayerCard({ player }) {
     hometown,
   } = player;
 
+  const formattedPosition = positionMap[position] ?? position ?? "N/A";
   return (
     <div className="bg-zinc-800 text-white p-4 rounded-xl shadow-md w-64">
-      {player_picture && (
-        <img
-          src={player_picture}
-          alt={`${first_name} ${last_name}`}
-          className="w-full h-40 object-cover rounded-md mb-3"
-        />
-      )}
+      <img
+        src={player_picture || "/images/defaultPlayer.png"}
+        alt={`${firstName} ${lastName}`}
+        className="w-full h-40 object-cover rounded-md mb-3"
+      />
 
       <h2 className="text-xl font-bold">
-        {first_name} {last_name}
+        {firstName} {lastName}
       </h2>
 
       <p className="text-sm text-gray-400">
-        #{jersey_number} • {position}
+        #{jersey_number} • {formattedPosition}
       </p>
 
       <p className="text-sm mt-1">{team}</p>

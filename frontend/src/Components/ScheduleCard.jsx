@@ -1,4 +1,4 @@
-export default function ScheduleCard({ game, homeTeam, awayTeam }) {
+export default function ScheduleCard({ game }) {
   const formattedDate = game.game_date
     ? new Date(game.game_date).toLocaleString([], {
         month: "short",
@@ -13,11 +13,11 @@ export default function ScheduleCard({ game, homeTeam, awayTeam }) {
     <div className="w-full rounded-2xl border-4 border-zinc-800 bg-zinc-300 p-8 shadow-[0_8px_0_rgba(0,0,0,0.35)]">
       <div className="flex items-center justify-between gap-6">
         <div className="flex flex-col items-center">
-          <div className="flex h-28 w-28 items-center justify-center rounded-xl bg-white shadow">
-            {homeTeam?.image ? (
+          <div className="flex h-28 w-28 items-center justify-center rounded-xl bg-slate-600 shadow">
+            {game.home_team ? (
               <img
-                src={home_team.image}
-                alt={home_team.team_name}
+                src={`/images/${game.home_team.toLowerCase()}.png`}
+                alt={game.home_team}
                 className="h-24 w-24 object-contain"
               />
             ) : (
@@ -25,22 +25,24 @@ export default function ScheduleCard({ game, homeTeam, awayTeam }) {
             )}
           </div>
           <p className="mt-2 text-xl font-semibold text-zinc-800">
-            {homeTeam?.team_name || "Home"}
+            {game.home_team || "Home"}
           </p>
         </div>
 
         <div className="flex flex-col items-center text-center">
           <div className="text-5xl font-bold text-black">VS</div>
           <p className="mt-2 text-xl text-zinc-800">{formattedDate}</p>
-          <p className="text-xl text-zinc-800">{game.location || "Location TBA"}</p>
+          <p className="text-xl text-zinc-800">
+            {game.location || "Location TBA"}
+          </p>
         </div>
 
         <div className="flex flex-col items-center">
-          <div className="flex h-28 w-28 items-center justify-center rounded-xl bg-white shadow">
-            {awayTeam?.image ? (
+          <div className="flex h-28 w-28 items-center justify-center rounded-xl bg-slate-600 shadow">
+            {game.away_team ? (
               <img
-                src={away_team.image}
-                alt={away_team.team_name}
+                src={`/images/${game.away_team.toLowerCase()}.png`}
+                alt={game.away_team}
                 className="h-24 w-24 object-contain"
               />
             ) : (
@@ -48,7 +50,7 @@ export default function ScheduleCard({ game, homeTeam, awayTeam }) {
             )}
           </div>
           <p className="mt-2 text-xl font-semibold text-zinc-800">
-            {awayTeam?.team_name || "Away"}
+            {game.away_team || "Away"}
           </p>
         </div>
       </div>
