@@ -20,7 +20,7 @@ export default function Roster() {
       },
     })
       .then((res) => {
-        if (!res.ok) throw new Error("Failed to fetch");
+        if (!res.ok) throw new Error("Failed to fetch players");
         return res.json();
       })
       .then((data) => setPlayers(data))
@@ -37,20 +37,41 @@ export default function Roster() {
 
   return (
     <div className="min-h-screen w-full bg-zinc-900">
-      <div className="min-h-screen bg-zinc-700 px-6 py-8">
-        <h1 className="mb-8 text-4xl font-bold text-black">Roster</h1>
+      
+      {/* Main Content */}
+      <div className="min-h-screen bg-zinc-500 px-6 py-8">
 
-        {error && (
-          <p className="mb-6 rounded-lg bg-red-200 px-4 py-3 text-red-700">
-            {error}
+        {/* Header Section */}
+        <div className="mb-10 rounded-2xl border-4 border-zinc-800 bg-zinc-300 px-6 py-4 shadow-[0_6px_0_rgba(0,0,0,0.35)]">
+          <h1 className="text-4xl font-extrabold text-zinc-900 tracking-tight">
+            Team Roster
+          </h1>
+          <p className="text-zinc-600 mt-1">
+            View all players and their information
           </p>
+        </div>
+
+        {/* Error Message */}
+        {error && (
+          <div className="mb-8 rounded-xl border-2 border-red-400 bg-red-100 px-5 py-4 shadow">
+            <p className="text-red-700 font-medium">{error}</p>
+          </div>
         )}
 
-        <div className="mx-auto max-w-7xl grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+        {/* Player Grid */}
+        <div className="mx-auto max-w-7xl grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
           {sortedPlayers.map((player) => (
             <PlayerCard key={player._id} player={player} />
           ))}
         </div>
+
+        {/* Empty State */}
+        {sortedPlayers.length === 0 && !error && (
+          <div className="mt-12 text-center text-zinc-300 text-lg">
+            No players found.
+          </div>
+        )}
+
       </div>
     </div>
   );
