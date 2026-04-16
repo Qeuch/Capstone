@@ -9,6 +9,8 @@ const positionMap = {
   runningBack: "Running Back",
   linebacker1: "Linebacker",
   leftTackle: "Left Tackle",
+  lineBacker: "Line Backer",
+  defensiveBack: "Defensive Back",
 };
 
 // Helper: checks if a value is meaningful
