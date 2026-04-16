@@ -1,48 +1,30 @@
+import { useEffect, useState } from "react";
+import { Outlet, NavLink } from "react-router-dom";
+import axios from "axios";
+
 export default function TeamStats() {
+  const [stats, setStats] = useState(null);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3000/api/teamstats/Wildcats")
+      .then((res) => setStats(res.data));
+  }, []);
+
   return (
-    <div className="min-h-screen w-full bg-zinc-900">
-      {/* External Container */}
-      <div>
-        {/* Main container*/}
-        <div className="flex items-center gap-4 bg-zinc-800 p-3 rounded-md shadow-md flex-wrap">
-          {/*  !!!!   CSS this to make it into a single bar with filtering options please    !!!! */}
-          {/* Part of the component that has the filtering options */}
-          {/* Select Year option */}
-          <div className="flex flex-col text-white text-sm">
-            <select name="Select Year" id="">
-              <option value="">Select Year</option>
-            </select>
-          </div>
-          {/* Select Age Group option */}
-          <div className="flex flex-col text-white text-sm">
-            <select name="Select Age Group" id="">
-              <option value="">Select Age Group</option>
-            </select>
-          </div>
-          {/* Select Unit option */}
-          <div>
-            <select name="Select Unit" id="">
-              <option value="">Select Unit</option>
-            </select>
-          </div>
-          {/* Select Category option */}
-          <div>
-            <select name="Select Category" id="">
-              <option value="">Select Category</option>
-            </select>
-          </div>
-        </div>
+    <div className="min-h-screen w-full bg-zinc-900 text-white">
+      <div className="flex gap-4 bg-zinc-800 p-3 rounded-md">
+        <NavLink to="offense">Offense</NavLink>
+        <NavLink to="defense">Defense</NavLink>
 
         <div>
-          {/* Part of the component that displays the actual data according to filtering options picked */}
-          <div>
-            {/* Each individual stat will have its own "container" or div tag */}
-            <p>Att: {/* Number goes here */}</p>
-            <p>Cmp: {/* Number goes here */}</p>
-            <p>Cmp %: {/* Number goes here */}</p>
-            {/* You get the idea */}
-          </div>
+          <p>Games Played: {stats?.gamesPlayed ?? "Loading..."}</p>
+          <p>Games Won: {stats?.gamesWon ?? "Loading..."}</p>
         </div>
+      </div>
+
+      <div className="p-6">
+        <Outlet context={{ stats }} />
       </div>
     </div>
   );

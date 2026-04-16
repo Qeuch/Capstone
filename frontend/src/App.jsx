@@ -16,6 +16,8 @@ import PlayerStats from "./Components/PlayerStats";
 import AddStats from "./Components/AddStats";
 import LandingPage from "./Components/LandingPage";
 import PlayerPage from "./Components/PlayerPage";
+import OffenseStats from "./Components/OffenseStats";
+import DefenseStats from "./Components/DefenseStats";
 // import all containers here
 
 function App() {
@@ -41,7 +43,10 @@ function App() {
             <Route path="playerstats" element={<PlayerStats />} />{" "}
             {/* This won't stay, just want to test the display page */}
             <Route path="schedule" element={<Schedule />} />
-            <Route path="teamstats" element={<TeamStats />} />
+            <Route path="teamstats" element={<TeamStats />}>
+              <Route path="offense" element={<OffenseStats />} />
+              <Route path="defense" element={<DefenseStats />} />
+            </Route>
             <Route
                     path="addstats"
                     element={
