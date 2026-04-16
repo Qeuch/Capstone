@@ -1,6 +1,23 @@
 import NavBar from "./NavBar";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function LandingPage() {
+  const [game, setGame] = useState(null);
+
+  useEffect(() => {
+    const fetchGame = async () => {
+      try {
+        const res = await axios.get("http://localhost:3000/api/games/upcoming");
+        setGame(res.data[0]); // only take the first game
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchGame();
+  }, []);
+
   return (
     <div className="min-h-screen w-full bg-zinc-900">
       <div className="flex h-screen w-full">
@@ -27,15 +44,43 @@ export default function LandingPage() {
                   Upcoming Games
                 </h2>
                 <div className="flex items-center justify-center gap-6 w-full">
-                  {/* Upcoming Game Card 1 */}
-                  <img src="/public/images/wildcats.png" alt="" width={200} />
-                  <div>
-                    {/* VS, Time, Place */}
-                    <h1>vs</h1>
-                    <h2>8:00pm</h2>
-                    <h2>Carleton Place</h2>
-                  </div>
-                  <img src="/public/images/ravens.png" alt="" width={200} />
+                  {game ? (
+                    <>
+                      <div className="flex flex-col items-center">
+                        <img
+                          src={`/images/${game.home_team.toLowerCase()}.png`}
+                          alt=""
+                          width={100}
+                        />
+                        <p className="text-xl">{game.home_team}</p>
+                      </div>
+
+                      <div className="text-center">
+                        <h1 className="text-2xl font-bold">VS</h1>
+                        <h2>
+                          {new Date(game.game_date).toLocaleString([], {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })}
+                        </h2>
+                        <h2>{game.location || "TBD"}</h2>
+                      </div>
+
+                      <div className="flex flex-col items-center">
+                        <img
+                          src={`/images/${game.away_team.toLowerCase()}.png`}
+                          alt=""
+                          width={100}
+                        />
+                        <p className="text-xl">{game.away_team}</p>
+                      </div>
+                    </>
+                  ) : (
+                    <p>Loading...</p>
+                  )}
                 </div>
                 <div>{/* Upcoming Game Card 2 */}</div>
               </div>

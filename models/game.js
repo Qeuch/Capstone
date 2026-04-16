@@ -34,6 +34,11 @@ const gameSchema = new Schema({
     default: null,
   },
 
+  location: {
+    type: String,
+    default: null,
+  },
+
   upcoming: {
     type: Boolean,
     default: true,
