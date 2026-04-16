@@ -25,19 +25,6 @@ useEffect(() => {
   fetchTeams();
 }, []);
 
-/*   useEffect(() => {
-    const fetchTeams = async () => {
-      try {
-        const response = await axios.get("http://localhost:3000/teams");
-        setTeams(response.data);
-      } catch (error) {
-        console.error("Error fetching teams:", error);
-      }
-    };
-
-    fetchTeams();
-  }, []); */
-
 
 const handleSubmit = async () => {
   if (!homeTeamId || !awayTeamId || !dateTime) {
