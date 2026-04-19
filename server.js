@@ -175,22 +175,27 @@ server.delete("/players/:id", async (request, response) => {
 });
 
 // Edit player
-server.patch("/edit-player/:id", async (request, response) => {
-  const playerId = request.params.id;
-  const { playerName, image, age, role, id } = request.body;
+server.patch("/api/players/:id/stats", async (req, res) => {
+  const { statType, value } = req.body;
 
-  //Server's response to a player being editted
+  if (!statType || typeof value !== "number") {
+    return res.status(400).json({ message: "Invalid request" });
+  }
+
   try {
-    await Player.findByIdAndUpdate(playerId, {
-      playerName,
-      image,
-      age,
-      role,
-    }).then((result) =>
-      response.status(200).send(`${playerName} edited\nwith id: ${playerId}`),
+    const player = await Player.findByIdAndUpdate(
+      req.params.id,
+      {
+        $inc: {
+          [statType]: value,
+        },
+      },
+      { new: true },
     );
-  } catch (error) {
-    console.log(error.message);
+
+    res.json(player);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 });
 
