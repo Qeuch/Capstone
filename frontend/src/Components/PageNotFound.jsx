@@ -22,7 +22,7 @@ export default function NotAuthorized() {
         </h1>
 
         <p className="text-2xl mb-6 drop-shadow-md">
-          where tf you goin gang? 🧐🧐
+          <strong>404</strong> Page not found!
         </p>
 
         <Link
