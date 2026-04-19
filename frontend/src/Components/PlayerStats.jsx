@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 
-// DEPRECATED DO NOT USE
 // Helper: maps shortcodes to proper labels
 const positionMap = {
   quarterback: "Quarterback",
