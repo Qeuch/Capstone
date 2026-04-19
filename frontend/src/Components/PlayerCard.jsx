@@ -10,6 +10,7 @@ export default function PlayerCard({ player }) {
     runningBack: "Running Back",
     linebacker1: "Linebacker",
     leftTackle: "Left Tackle",
+    defensiveBack: "Defensive Back",
   };
   const {
     _id,
