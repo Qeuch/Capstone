@@ -1,21 +1,47 @@
 import NavBar from "./NavBar";
 import { useEffect, useState } from "react";
 import axios from "axios";
-
+import PlayerCard from "./PlayerCard";
 export default function LandingPage() {
   const [game, setGame] = useState(null);
+  const [topPlayers, setTopPlayers] = useState([]);
 
   useEffect(() => {
-    const fetchGame = async () => {
+    const fetchData = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/api/games/upcoming");
-        setGame(res.data[0]); // only take the first game
+        const [gameRes, playerRes] = await Promise.all([
+          axios.get("http://localhost:3000/api/games/upcoming"),
+          axios.get("http://localhost:3000/api/players"),
+        ]);
+
+        // game
+        setGame(gameRes.data[0]);
+
+        // compute rating
+        const calculatePlayerRating = (player) => {
+          const offense = player.stats?.offense || {};
+
+          return (
+            (offense.passYard || 0) * 0.1 +
+            (offense.runYard || 0) * 0.1 +
+            (offense.passTD || 0) * 6 +
+            (offense.runTD || 0) * 6 +
+            (offense.passComp || 0) * 1
+          );
+        };
+
+        // sorts top three players
+        const topThree = playerRes.data
+          .sort((a, b) => calculatePlayerRating(b) - calculatePlayerRating(a))
+          .slice(0, 3);
+
+        setTopPlayers(topThree);
       } catch (err) {
         console.error(err);
       }
     };
 
-    fetchGame();
+    fetchData();
   }, []);
 
   return (
@@ -32,11 +58,19 @@ export default function LandingPage() {
             <main className="relative z-10 h-full px-8 py-6 text-white flex flex-col">
               {/* Players of the Week title */}
               <h1 className="text-5xl font-semibold text-center text-outline-black tracking-wide drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] mt-2">
-                Stars of the Game
+                Star Players
               </h1>
 
-              {/* Space where player cards will go later */}
-              <div className="flex-1" />
+              {/* Player Cards show up here*/}
+              <div className="flex justify-center gap-6 flex-wrap">
+                {topPlayers.length > 0 ? (
+                  topPlayers.map((player) => (
+                    <PlayerCard key={player._id} player={player} />
+                  ))
+                ) : (
+                  <p className="text-white">Loading players...</p>
+                )}
+              </div>
 
               <div>
                 {/* Upcoming Games title */}
