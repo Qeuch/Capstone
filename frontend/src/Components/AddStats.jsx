@@ -81,58 +81,87 @@ export default function AddStats() {
   ];
 
   return (
-    <div className="min-h-screen bg-zinc-900 text-white p-6">
-      <h1 className="text-3xl mb-6">Manual Stat Entry</h1>
+    <div className="min-h-screen bg-zinc-950 text-white px-6 py-10">
+  <div className="mx-auto w-full max-w-lg rounded-2xl border border-zinc-800 bg-zinc-900 shadow-xl">
+    <div className="border-b border-zinc-800 px-6 py-5">
+      <h1 className="text-3xl font-bold tracking-tight text-white">
+        Manual Stat Entry
+      </h1>
+      <p className="mt-1 text-sm text-zinc-400">
+        Select a player, choose a stat, and enter the value.
+      </p>
+    </div>
 
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4 max-w-md">
-
-        {/* PLAYER */}
+    <form onSubmit={handleSubmit} className="flex flex-col gap-5 px-6 py-6">
+      {/* PLAYER */}
+      <div className="flex flex-col gap-2">
+        <label className="text-sm font-medium text-zinc-300">Player</label>
         <select
           name="playerId"
           value={form.playerId}
           onChange={handleChange}
           required
-          className="text-black p-2 rounded"
+          className="rounded-xl border border-zinc-700 bg-zinc-800 px-4 py-3 text-white outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30"
         >
-          <option value="">Select Player</option>
+          <option value="" className="text-zinc-400">
+            Select Player
+          </option>
           {players.map((p) => (
             <option key={p._id} value={p._id}>
               {p.firstName} {p.lastName}
             </option>
           ))}
         </select>
+      </div>
 
-        {/* STAT TYPE */}
+      {/* STAT TYPE */}
+      <div className="flex flex-col gap-2">
+        <label className="text-sm font-medium text-zinc-300">Stat Type</label>
         <select
           name="statType"
           value={form.statType}
           onChange={handleChange}
           required
-          className="text-black p-2 rounded"
+          className="rounded-xl border border-zinc-700 bg-zinc-800 px-4 py-3 text-white outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30"
         >
-          <option value="">Select Stat</option>
+          <option value="" className="text-zinc-400">
+            Select Stat
+          </option>
           {statOptions.map((stat) => (
             <option key={stat.value} value={stat.value}>
               {stat.label}
             </option>
           ))}
         </select>
+      </div>
 
-        {/* VALUE */}
+      {/* VALUE */}
+      <div className="flex flex-col gap-2">
+        <label className="text-sm font-medium text-zinc-300">Value</label>
         <input
           type="number"
           name="value"
           value={form.value}
           onChange={handleChange}
-          className="text-black p-2 rounded"
+          className="rounded-xl border border-zinc-700 bg-zinc-800 px-4 py-3 text-white placeholder:text-zinc-500 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30"
+          placeholder="Enter stat value"
         />
+      </div>
 
-        <button className="bg-blue-600 hover:bg-blue-700 p-2 rounded">
-          Update Stat
-        </button>
+      <button
+        type="submit"
+        className="mt-2 rounded-xl bg-blue-600 px-4 py-3 font-semibold text-white shadow-md transition hover:bg-blue-700 active:scale-[0.98]"
+      >
+        Update Stat
+      </button>
 
-        {message && <p className="text-green-400">{message}</p>}
-      </form>
-    </div>
+      {message && (
+        <p className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-400">
+          {message}
+        </p>
+      )}
+    </form>
+  </div>
+</div>
   );
 }
