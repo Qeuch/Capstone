@@ -58,6 +58,10 @@ const playerSchema = new Schema({
         type: Number,
         default: null,
       },
+      recYard: {
+        type: Number,
+        default: 0,
+      },
       tackles: {
         type: Number,
         default: null,

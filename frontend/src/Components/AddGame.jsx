@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 
 export default function AddGame() {
@@ -38,13 +39,17 @@ export default function AddGame() {
   }, []); */
 
   const handleSubmit = async () => {
-    if (!homeTeamId || !awayTeamId || !dateTime) {
-      console.log("Missing required fields");
-      return;
-    }
+  if (!homeTeamId || !awayTeamId || !dateTime) {
+    console.log("Missing required fields");
+    return;
+  }
 
-    try {
-      await axios.post("http://localhost:3000/games", {
+  const token = Cookies.get("jwt-authorization");
+
+  try {
+    await axios.post(
+      "http://localhost:3000/games",
+      {
         game_date: dateTime,
         home_team: homeTeam?.team_name,
         away_team: awayTeam?.team_name,
@@ -53,13 +58,19 @@ export default function AddGame() {
         location: location,
         weather_conditions: "",
         upcoming: true,
-      });
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
-      navigate("/main/schedule");
-    } catch (error) {
-      console.error("Error saving game:", error.response?.data || error);
-    }
-  };
+    navigate("/main/schedule");
+  } catch (error) {
+    console.error("Error saving game:", error.response?.data || error);
+  }
+};
 
   const homeTeam = teams.find((team) => team._id === homeTeamId);
   const awayTeam = teams.find((team) => team._id === awayTeamId);
