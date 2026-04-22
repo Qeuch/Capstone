@@ -40,12 +40,14 @@ export default function PlayerPage() {
     linebacker1: "Linebacker",
     leftTackle: "Left Tackle",
   };
+  const formattedPosition =
+    positionMap[player.position] ?? player.position ?? "N/A";
   const stats = [
     { label: "Name", value: `${player.firstName} ${player.lastName}` ?? "N/A" },
 
     {
       label: "Position",
-      value: positionMap[player.position] ?? player.position ?? "N/A",
+      value: formattedPosition,
     },
     { label: "Age", value: player.age ?? "N/A" },
     { label: "Hometown", value: player.hometown ?? "N/A" },
@@ -129,11 +131,11 @@ export default function PlayerPage() {
         {/* Name + Info */}
         <h1 className="mt-6 text-4xl font-bold text-white">{fullName}</h1>
         <p className="text-2xl text-zinc-200">
-          {player.position || player.role || "No Position"}
+          {formattedPosition || player.role || "No Position"}
         </p>
 
         <div className="mt-3 rounded-full bg-zinc-300 px-5 py-2 text-lg font-bold text-zinc-800 border-2 border-zinc-700">
-          #{player.jerseyNumber ?? "N/A"}
+          #{player.jersey_number ?? "N/A"}
         </div>
       </div>
 
