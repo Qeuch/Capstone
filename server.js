@@ -100,6 +100,7 @@ server.post("/create-user", async (request, response) => {
         username,
         email,
         password: hashedPassword,
+        role: "user",
       });
       await newUser.save();
       response.send({ message: "User Created!" });
@@ -113,7 +114,7 @@ server.post("/create-user", async (request, response) => {
 });
 
 //Adding Games to schedule
-server.post("/games", async (req, res) => {
+server.post("/games", authenticateToken, authorizeAdmin, async (req, res) => {
   try {
     const {
       game_date,
@@ -122,6 +123,7 @@ server.post("/games", async (req, res) => {
       home_score,
       away_score,
       weather_conditions,
+      location, 
     } = req.body;
 
     const newGame = new Game({
@@ -132,6 +134,7 @@ server.post("/games", async (req, res) => {
       home_score,
       away_score,
       weather_conditions,
+      location, 
     });
 
     await newGame.save();
@@ -175,29 +178,34 @@ server.delete("/players/:id", async (request, response) => {
 });
 
 // Edit player
-server.patch("/api/players/:id/stats", async (req, res) => {
-  const { statType, value } = req.body;
+server.patch(
+  "/api/players/:id/stats",
+  authenticateToken,
+  authorizeAdmin,
+  async (req, res) => {
+    const { statType, value } = req.body;
 
-  if (!statType || typeof value !== "number") {
-    return res.status(400).json({ message: "Invalid request" });
-  }
+    if (!statType || typeof value !== "number") {
+      return res.status(400).json({ message: "Invalid request" });
+    }
 
-  try {
-    const player = await Player.findByIdAndUpdate(
-      req.params.id,
-      {
-        $inc: {
-          [statType]: value,
+    try {
+      const player = await Player.findByIdAndUpdate(
+        req.params.id,
+        {
+          $inc: {
+            [statType]: value,
+          },
         },
-      },
-      { new: true },
-    );
+        { new: true },
+      );
 
-    res.json(player);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
+      res.json(player);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  },
+);
 
 // Login existing user route
 server.post("/", async (request, response) => {
@@ -247,6 +255,14 @@ function authenticateToken(req, res, next) {
     req.user = decoded;
     next();
   });
+}
+
+function authorizeAdmin(req, res, next) {
+  if (!req.user || req.user.role !== "admin") {
+    return res.status(403).json({ message: "Admin access only" });
+  }
+
+  next();
 }
 
 server.get("/api/players/test", (req, res) => {

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
@@ -24,9 +25,19 @@ export default function LoginPage() {
       setPostResponse(response.data.message);
 
       if (response.status === 201) {
-        Cookies.set("jwt-authorization", response.data.token);
-        navigate("/main");
-      }
+  Cookies.set("jwt-authorization", response.data.token);
+
+  const decoded = jwtDecode(response.data.token);
+  localStorage.setItem(
+    "currentUser",
+    JSON.stringify({
+      username: decoded.username,
+      role: decoded.role,
+    }),
+  );
+
+  navigate("/main");
+}
     } catch (error) {
       setPostResponse(
         error?.response?.data?.message || "Login failed. Please try again.",

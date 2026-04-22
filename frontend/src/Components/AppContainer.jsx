@@ -17,12 +17,16 @@ export default function AppContainer() {
   });
 
   const setCurrent = async (jwtToken) => {
-    const decoded = jwtDecode(jwtToken);
-    setCurrentUser({
-      username: decoded.username,
-      role: decoded.role,
-    });
+  const decoded = jwtDecode(jwtToken);
+
+  const userData = {
+    username: decoded.username,
+    role: decoded.role,
   };
+
+  setCurrentUser(userData);
+  localStorage.setItem("currentUser", JSON.stringify(userData));
+};
 
   // I KNOW THERE'S AN ERROR HERE JUST IGNORE IT I SWEAR ITS OKAY
   useEffect(() => {
@@ -35,11 +39,15 @@ export default function AppContainer() {
   }, []);
 
   // Handlers //
-  const handleLogout = () => {
-    Cookies.remove("jwt-authorization");
-    setCurrentUser("");
-    navigate("/");
-  };
+ const handleLogout = () => {
+  Cookies.remove("jwt-authorization");
+  localStorage.removeItem("currentUser");
+  setCurrentUser({
+    username: "",
+    role: "",
+  });
+  navigate("/");
+};
   return (
     <div className="flex h-screen overflow-hidden">
       <NavBar currentUser={currentUser} handleLogout={handleLogout} />

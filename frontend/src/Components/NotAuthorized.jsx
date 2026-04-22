@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
 
 export default function NotAuthorized() {
+  const currentUser = JSON.parse(localStorage.getItem("currentUser") || "null");
+  const isLoggedIn = !!currentUser?.username;
+
   return (
     <div className="min-h-screen flex items-center justify-center relative text-center">
       {/* Background */}
@@ -10,6 +13,7 @@ export default function NotAuthorized() {
           backgroundImage: "url('/images/behang-met-een-voetbalstadion_6.jpg')",
         }}
       />
+
       <div className="absolute inset-0 bg-black/70" />
 
       {/* Content */}
@@ -23,10 +27,10 @@ export default function NotAuthorized() {
         </p>
 
         <Link
-          to="/"
+          to={isLoggedIn ? "/main" : "/"}
           className="inline-block px-6 py-3 bg-red-600 hover:bg-red-700 transition rounded-lg text-white font-semibold shadow-lg no-underline"
         >
-          Go Back to Login
+          {isLoggedIn ? "Go Back to Main" : "Go Back to Login"}
         </Link>
       </div>
     </div>

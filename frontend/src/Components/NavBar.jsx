@@ -36,14 +36,15 @@ export default function NavBar({ currentUser, handleLogout }) {
             onClick={() => navigate(`${link.path}`)}
           />
         ))}
-        {currentUser.role === "admin" ? (
+
+        {currentUser.role === "admin" && (
           <SideButton
             key="addstats"
             label="Add Stats"
             active={location.pathname.includes("/addstats")}
             onClick={() => navigate("addstats")}
           />
-        ) : null}
+        )}
       </div>
 
       <div className="mt-auto pt-4">

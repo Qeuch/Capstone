@@ -1,9 +1,9 @@
-// PAGE NOT FOUND
-// Any random crap put in as a url should lead here
-
 import { Link } from "react-router-dom";
 
-export default function NotAuthorized() {
+export default function PageNotFound() {
+  const currentUser = JSON.parse(localStorage.getItem("currentUser") || "null");
+  const isLoggedIn = !!currentUser?.username;
+
   return (
     <div className="min-h-screen flex items-center justify-center relative text-center">
       {/* Background */}
@@ -26,10 +26,10 @@ export default function NotAuthorized() {
         </p>
 
         <Link
-          to="/"
+          to={isLoggedIn ? "/main" : "/"}
           className="inline-block px-6 py-3 bg-red-600 hover:bg-red-700 transition rounded-lg text-white font-semibold shadow-lg no-underline"
         >
-          Go Back to Login
+          {isLoggedIn ? "Go Back to Main" : "Go Back to Login"}
         </Link>
       </div>
     </div>

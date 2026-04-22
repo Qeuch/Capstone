@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
 import axios from "axios";
 
 export default function AddStats() {
@@ -85,42 +86,56 @@ export default function AddStats() {
     }
   };
 
+  
   const handleUpdate = async (statType, value) => {
-    if (!selectedPlayerId) return;
+  if (!selectedPlayerId) return;
 
-    try {
-      await axios.patch(
-        `http://localhost:3000/api/players/${selectedPlayerId}/stats`,
-        { statType, value }
-      );
+  const token = Cookies.get("jwt-authorization");
 
-      setHistory((prev) => [...prev, { statType, value }]);
-      await refreshSelectedPlayer();
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  try {
+    await axios.patch(
+      `http://localhost:3000/api/players/${selectedPlayerId}/stats`,
+      { statType, value },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    setHistory((prev) => [...prev, { statType, value }]);
+    await refreshSelectedPlayer();
+  } catch (err) {
+    console.error(err);
+  }
+};
 
   const handleUndo = async () => {
-    if (!selectedPlayerId || history.length === 0) return;
+  if (!selectedPlayerId || history.length === 0) return;
 
-    const lastAction = history[history.length - 1];
+  const lastAction = history[history.length - 1];
+  const token = Cookies.get("jwt-authorization");
 
-    try {
-      await axios.patch(
-        `http://localhost:3000/api/players/${selectedPlayerId}/stats`,
-        {
-          statType: lastAction.statType,
-          value: -lastAction.value,
-        }
-      );
+  try {
+    await axios.patch(
+      `http://localhost:3000/api/players/${selectedPlayerId}/stats`,
+      {
+        statType: lastAction.statType,
+        value: -lastAction.value,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
-      setHistory((prev) => prev.slice(0, -1));
-      await refreshSelectedPlayer();
-    } catch (err) {
-      console.error(err);
-    }
-  };
+    setHistory((prev) => prev.slice(0, -1));
+    await refreshSelectedPlayer();
+  } catch (err) {
+    console.error(err);
+  }
+};
 
   const statRowClass =
     "flex items-center justify-between rounded-lg bg-zinc-700/70 px-4 py-2 border border-zinc-600";

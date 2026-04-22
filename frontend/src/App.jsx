@@ -6,7 +6,7 @@ import PageNotFound from "./Components/PageNotFound";
 import NotAuthorized from "./Components/NotAuthorized";
 import AppContainer from "./Components/AppContainer";
 import AddGame from "./Components/AddGame";
-
+import ProtectedRoute from "./Components/ProtectedRoute";
 // routes for navbar
 import Roster from "./Components/Roster";
 import Schedule from "./Components/Schedule";
@@ -20,6 +20,7 @@ import DefenseStats from "./Components/DefenseStats";
 // import all containers here
 
 function App() {
+    const storedUser = JSON.parse(localStorage.getItem("currentUser") || "null");
   return (
     <>
       <Router>
@@ -43,8 +44,32 @@ function App() {
               <Route path="offense" element={<OffenseStats />} />
               <Route path="defense" element={<DefenseStats />} />
             </Route>
-            <Route path="addstats" element={<AddStats />} />
-            <Route path="addgame" element={<AddGame />} />
+            <Route
+            path="addstats"
+            element={
+              <ProtectedRoute
+                currentUser={JSON.parse(
+                  localStorage.getItem("currentUser") || "null",
+                )}
+                allowedRole="admin"
+              >
+                <AddStats />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="addgame"
+            element={
+              <ProtectedRoute
+                currentUser={JSON.parse(
+                  localStorage.getItem("currentUser") || "null",
+                )}
+                allowedRole="admin"
+              >
+                <AddGame />
+              </ProtectedRoute>
+            }
+          />
           </Route>
 
           {/* This if you try to bypass login. Somewhere further in, we'll have this route accessed 
