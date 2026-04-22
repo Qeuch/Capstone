@@ -1,5 +1,6 @@
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import LoginPage from "./Components/LoginPage";
 import RegisterPage from "./Components/RegisterPage";
 import PageNotFound from "./Components/PageNotFound";
@@ -20,7 +21,7 @@ import DefenseStats from "./Components/DefenseStats";
 // import all containers here
 
 function App() {
-    const storedUser = JSON.parse(localStorage.getItem("currentUser") || "null");
+  const storedUser = JSON.parse(localStorage.getItem("currentUser") || "null");
   return (
     <>
       <Router>
@@ -41,35 +42,36 @@ function App() {
             {/* This won't stay, just want to test the display page */}
             <Route path="schedule" element={<Schedule />} />
             <Route path="teamstats" element={<TeamStats />}>
+              <Route index element={<Navigate to="offense" replace />} />
               <Route path="offense" element={<OffenseStats />} />
               <Route path="defense" element={<DefenseStats />} />
             </Route>
             <Route
-            path="addstats"
-            element={
-              <ProtectedRoute
-                currentUser={JSON.parse(
-                  localStorage.getItem("currentUser") || "null",
-                )}
-                allowedRole="admin"
-              >
-                <AddStats />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="addgame"
-            element={
-              <ProtectedRoute
-                currentUser={JSON.parse(
-                  localStorage.getItem("currentUser") || "null",
-                )}
-                allowedRole="admin"
-              >
-                <AddGame />
-              </ProtectedRoute>
-            }
-          />
+              path="addstats"
+              element={
+                <ProtectedRoute
+                  currentUser={JSON.parse(
+                    localStorage.getItem("currentUser") || "null",
+                  )}
+                  allowedRole="admin"
+                >
+                  <AddStats />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="addgame"
+              element={
+                <ProtectedRoute
+                  currentUser={JSON.parse(
+                    localStorage.getItem("currentUser") || "null",
+                  )}
+                  allowedRole="admin"
+                >
+                  <AddGame />
+                </ProtectedRoute>
+              }
+            />
           </Route>
 
           {/* This if you try to bypass login. Somewhere further in, we'll have this route accessed 

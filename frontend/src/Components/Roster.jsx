@@ -37,18 +37,13 @@ export default function Roster() {
 
   return (
     <div className="min-h-screen w-full bg-zinc-900">
-      
       {/* Main Content */}
       <div className="min-h-screen bg-zinc-500 px-6 py-8">
-
         {/* Header Section */}
         <div className="mb-10 rounded-2xl border-4 border-zinc-800 bg-zinc-300 px-6 py-4 shadow-[0_6px_0_rgba(0,0,0,0.35)]">
           <h1 className="text-4xl font-extrabold text-zinc-900 tracking-tight">
             Team Roster
           </h1>
-          <p className="text-zinc-600 mt-1">
-            View all players and their information
-          </p>
         </div>
 
         {/* Error Message */}
@@ -71,7 +66,6 @@ export default function Roster() {
             No players found.
           </div>
         )}
-
       </div>
     </div>
   );
